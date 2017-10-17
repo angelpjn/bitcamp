@@ -1,26 +1,16 @@
-/* 
-
-# 과제_1
-- 표준 출력장치로 인사 문구를 출력하라!
-
-
-# 과제_2
-- 학생 한 명의 성적 점수를 출력하라!
-- 이름, 국어, 영어, 수학, 총점, 평균
-
-  ex. 출력 결과
-  이름 : 홍길동
-  국어 : 100
-  수학 : 100
-  총정 : 300
-  평균 : 100.0
-
-*/
-
 
 public class App {
 
-    public static void main(String[] args) {
-        System.out.println("Hello, world!");
-    }
+	public static void main(String[] args) {
+
+		Score[] scores = {new Score(), new Score(), new Score()};
+				
+		Score.init(scores[0], "홍길동", 100, 90, 80);
+		Score.init(scores[1], "임꺽정", 80, 80, 80);
+		Score.init(scores[2], "유관순", 100, 100, 100);
+		
+		for (Score s : scores) {
+			Score.print(s);
+		}
+	}
 }
