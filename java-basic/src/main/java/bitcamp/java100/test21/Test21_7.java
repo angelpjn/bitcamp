@@ -33,7 +33,7 @@ public class Test21_7 {
     	System.out.printf("입력한 값 : %s\n", rs.str);
     	StringBuffer sb = new StringBuffer(rs.str);
     	sb.reverse();
-    	System.out.println(sb.toString());
+    	System.out.println("거꾸로 바꾼 값: " + sb.toString());
     }
 }
 
