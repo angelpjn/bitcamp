@@ -103,12 +103,16 @@ public class Test18_5 {
     	// 구분자 없을 시. 통째로 배열에 담아 리턴
     	arr = s1.split(" ");
     	System.out.println(arr.length);
+    	
+    	System.out.println("---------------");
     	System.out.println(arr[0]);
     	
+    	System.out.println("---------------");
     	s1 = "";
     	arr = s1.split(",");
     	System.out.println(arr.length);
-    	System.out.println(arr[0]);
+    	System.out.println("---------------");
+    	System.out.println(arr[0] + "dsaf");
     	
     	s1 = "Hong Gil Dong";
     	

@@ -13,7 +13,7 @@ public class Test18_2 {
 //    	literal : 코드로 바로 적는 값.
 //    	ex. int i = 8; 에서 literal은 "8" => 4byte int literal 8이라고 읽음
 //    	literal 종류 예 : 12, 12L, 3.14f, 4.14, true, false, '가'
-//    	즉, short와 byte의 liter은 없음.
+//    	즉, short와 byte의 literal은 없음.
     	
     	String s2 = "ABC가각간";
     	
