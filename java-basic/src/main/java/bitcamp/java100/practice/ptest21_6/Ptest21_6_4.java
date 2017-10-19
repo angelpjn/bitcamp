@@ -26,6 +26,8 @@ public class Ptest21_6_4 {
     static Console console;
     
     static void prepareConsole() {
+        console = System.console();
+        
         if (console == null) {
             System.err.println("콘솔 지원 불가!");
             System.exit(1);
@@ -43,13 +45,15 @@ public class Ptest21_6_4 {
         int[] arr = new int[10];
 
         for (int i = 0; i < sb.length(); i++) {
-            arr[sb.charAt(0) - '0']++;
+            arr[sb.charAt(i) - '0']++;
         }
         return arr;
     }
     
     static void computeNum(int[] arr) {
-        System.out.printf(""%d = %d", );
+        for (int i = 0; i < arr.length; i++) {
+            System.out.printf("%d = %d\n", i, arr[i]);
+        }
     }
     
     public static void main(String[] args) {
@@ -60,6 +64,7 @@ public class Ptest21_6_4 {
         
         int[] arr = countArr(sb);
         
+        computeNum(arr);
     }
 }
     

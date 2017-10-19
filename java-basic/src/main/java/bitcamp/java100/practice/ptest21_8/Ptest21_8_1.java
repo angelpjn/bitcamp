@@ -34,11 +34,11 @@
      안중근      ahn@test.com 1111-1114
      > 
  */
-package bitcamp.java100.practice.test21_8;
+package bitcamp.java100.practice.ptest21_8;
 
 import java.io.Console;
 
-public class Test21_8_1 {
+public class Ptest21_8_1 {
 	
 	public static void main(String[] args) {
 		Console console = System.console();

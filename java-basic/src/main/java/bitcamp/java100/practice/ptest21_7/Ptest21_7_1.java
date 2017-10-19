@@ -8,12 +8,12 @@
      꺼꾸로 바꾼 값: 089TTC2BA
      > 
  */
-package bitcamp.java100.test21.test21_7;
+package bitcamp.java100.practice.ptest21_7;
 
 import java.io.Console;
 import java.util.ArrayList;
 
-public class Test21_7_1 {
+public class Ptest21_7_1 {
 
     public static void main(String[] args) {
     	
@@ -24,19 +24,19 @@ public class Test21_7_1 {
             System.exit(1);
         }
         
-        String str = console.readLine("문자열? => ");
+        String str = console.readLine("문자열 : ");
         
-        StringBuffer buf = new StringBuffer();
-        buf.append(str);
+        StringBuffer sb = new StringBuffer();
+        sb.append(str);
         
-        int len = buf.length();
+        int len = sb.length() / 2;
         
-        for (int left = 0, right = buf.length() - 1; left < len; left++, right--) {
-            char ch = buf.charAt(left);
-            buf.setCharAt(left, buf.charAt(right));
-            buf.setCharAt(right, ch);
+        for (int left = 0, right = sb.length() - 1; left < len; left++, right--) {
+            char ch = sb.charAt(left);
+            sb.setCharAt(left, sb.charAt(right));
+            sb.setCharAt(right, ch);
         }
-        System.out.printf("입력 문자열 : %s\n", str);
-        System.out.printf("출력 문자열 : %s\n", buf);
+        System.out.printf("입력한 값 : %s\n", str);
+        System.out.printf("출력한 값 : %s\n", sb);
     }
 }
