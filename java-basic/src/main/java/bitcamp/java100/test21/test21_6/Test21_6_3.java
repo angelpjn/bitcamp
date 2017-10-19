@@ -1,3 +1,5 @@
+// 1단계 : 입력 문자열을 그대로 이용하기
+
 /*
 ## 키보드로부터 입력 받기 - 연습2
  - 다음과 같이 사용자로부터 숫자를 입력 받아 각 숫자의 개수를 세시오.
@@ -15,18 +17,14 @@
    9 = 0
    > 
  */
-package bitcamp.java100.test21;
+package bitcamp.java100.test21.test21_6;
 
 import java.io.Console;
 
-public class Test21_6 {
-
+public class Test21_6_3 {
+	
     public static void main(String[] args) {
 
-    	class Count { // non-static(method 밖에서 만들면 static 붙일 수 있음)
-    		int[] arr;
-    		int i, j;
-    	}
     	Console console = System.console();
     	
     	if (console == null) {
@@ -34,32 +32,20 @@ public class Test21_6 {
     		System.exit(1); // JVM 종료 : 0 => 정상 / 그 외 => 비정상
     	}
 
-    	Count count = new Count();
-
-    	count.i = Integer.parseInt(console.readLine("숫자? => "));
-    	count.arr = new int[10];
+    	long l = 0;
+    	int [] arr = new int [10];
     	
-    	while (count.i > 0) {
-    		count.arr[count.i % 10]++;
-    		count.i /= 10;
-    		}
-    	count.j = 0;
-    	while (count.j < count.arr.length) {
-    		System.out.printf("%d = %d\n", count.j, count.arr[count.j]);
-    		count.j++;
+    	StringBuffer buf = new StringBuffer(console.readLine("숫자? => "));
+    	
+    	for (int i = 0; i < buf.length(); i++) {
+    		arr[buf.charAt(i) - '0']++; // '0'의 10진수 ASCII 코드 값 : 48
     	}
-    	System.out.println();
+    	
+    	for (int i = 0; i < arr.length; i++) {
+    		System.out.printf("%d = %d\n", i, arr[i]);
+    	}
     }
 }
-
-
-
-
-
-
-
-
-
 
 
 

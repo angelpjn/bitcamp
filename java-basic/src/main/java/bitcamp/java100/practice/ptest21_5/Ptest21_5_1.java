@@ -1,3 +1,5 @@
+// 1단계 : if ~ else if ~ else
+
 /*
  	- 구구단 번호 입력 받아 출력!
  	- 실행 예)
@@ -17,11 +19,12 @@
  	다음에 또 봐요!
  	>
  */
-package bitcamp.java100.practice;
+
+package bitcamp.java100.practice.ptest21_5;
 
 import java.io.Console;
 
-public class Practice1 {
+public class Ptest21_5_1 {
 
     public static void main(String[] args) {
 
@@ -36,17 +39,16 @@ public class Practice1 {
 
     	i = Integer.parseInt(console.readLine("구구단? => "));
     	
-    	if (i >= 10 || (i == 1)){ // or는 항상 두개를 쓸 것.
+    	if ((i >= 10) || ((i == 1))){
     		System.out.println("2에서 9단까지만 가능합니다!");
-    		return; // 여기서 처리하고 끝내기 위해 return을 사용할 것.
- 
+    		
     	} else if (i == 0) {
     		System.out.println("다음에 또 봐요!");
-    		return; //
-    	} 
     	
-    	for (j = 1; j <= 9; j++) {
-    		System.out.printf("%d * %d = %d", i, j, i * j);
+    	} else {
+	    	for (j = 1; j <= 9; j++) {
+				System.out.println(i + " * " + j +" = " + i * j);
+			}
     	}
     }
 }

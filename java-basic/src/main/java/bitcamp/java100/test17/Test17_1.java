@@ -13,7 +13,7 @@ public class Test17_1 {
 	}
 	
     public static void main(String[] args) {
-    	
+    	System.out.println("가나다.");
     	Score s1 = new Score();
     	s1.name = "홍길동";
     	s1.kor = 90;

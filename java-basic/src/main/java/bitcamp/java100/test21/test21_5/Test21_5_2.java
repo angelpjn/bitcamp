@@ -1,3 +1,5 @@
+// 2단계 : 종료 조건은 if ~ else로, 주 작업은 기본 블럭에서 : 들여쓰기 최소화
+
 /*
  	- 구구단 번호 입력 받아 출력!
  	- 실행 예)
@@ -17,11 +19,12 @@
  	다음에 또 봐요!
  	>
  */
-package bitcamp.java100.practice;
+
+package bitcamp.java100.test21.test21_5;
 
 import java.io.Console;
 
-public class Practice1 {
+public class Test21_5_2 {
 
     public static void main(String[] args) {
 
@@ -36,18 +39,18 @@ public class Practice1 {
 
     	i = Integer.parseInt(console.readLine("구구단? => "));
     	
-    	if (i >= 10 || (i == 1)){ // or는 항상 두개를 쓸 것.
+    	if (i >= 10 || i == 1) { // 연산자 우선순위에 의해 ||가 더 낮다. 그리고 |보다 ||이게 더 낫다.
     		System.out.println("2에서 9단까지만 가능합니다!");
-    		return; // 여기서 처리하고 끝내기 위해 return을 사용할 것.
- 
+    		return;
+    		
     	} else if (i == 0) {
     		System.out.println("다음에 또 봐요!");
-    		return; //
+    		return;
+    		
     	} 
-    	
     	for (j = 1; j <= 9; j++) {
-    		System.out.printf("%d * %d = %d", i, j, i * j);
-    	}
+			System.out.println(i + " * " + j +" = " + i * j);
+		}
     }
 }
 

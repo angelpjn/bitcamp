@@ -35,7 +35,6 @@ public class Test21_4 {
     	System.out.printf("나이 : %d 세\n", s.age);
     	System.out.printf("재직여부 : %b\n", s.working);
     	System.out.printf("졸업학점 : %.2f 점\n", s.gpa);
-    	
     }
 }
 
