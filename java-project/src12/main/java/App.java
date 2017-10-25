@@ -24,24 +24,21 @@ public class App {
  }
 
  
-    public static void main(String[] args) {
-        ScoreDao scoreDao = new ScoreDao();
-         
-        while (true) {
-             
-            Score score = new Score();
-                 
-            score.input();
-                 
-            scoreDao.scores[scoreDao.cursor++] = score;
-             
-        if (!confirm("계속 하시겠습니까? ")) {
-            break;
-        }
-    }
+ public static void main(String[] args) {
      
-    for (int i = 0; i < scoreDao.cursor; i++) {
-        scoreDao.scores[i].print();
-        }
-    }
+     while (true) {
+         
+         Score score = new Score();
+         score.input();
+         ScoreDao.scores[ScoreDao.cursor++] = score;
+         
+         if (!confirm("계속 하시겠습니까? ")) {
+             break;
+         }
+     }
+     
+     for (int i = 0; i < ScoreDao.cursor; i++) {
+         ScoreDao.scores[i].print();
+     }
+ }
 }
