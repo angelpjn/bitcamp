@@ -1,7 +1,11 @@
+/*
+1.2 순열 확인 : 문자열 두 개가 주어졌을 때 이 둘이 서로 순영 관계에 있는지 확인하는 메서드를 작성하라.
+*/
+package ch1;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class no1_2 {
+public class no2 {
 
     public static void main(String[] args) {
         

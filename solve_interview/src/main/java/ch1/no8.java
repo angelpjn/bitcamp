@@ -1,12 +1,11 @@
+/*
+1.8 0행렬 : M * N 행렬의 한 원소가 0일 경우, 해당 원소가 속한 행과 열의 모든 원소를 0으로 설정하는 알고리즘을 작성하라.
+ */
+package ch1;
 import java.util.Arrays;
 import java.util.Scanner;
 
-/*
-- 1.8 0행렬
-M * N 행렬의 한 원소가 0일 경우, 해당 원소가 속한 행과 열의 모든 원소를 0으로 설정하는 알고리즘을 작성하라.
- */
-
-public class no1_8 {
+public class no8 {
 
     public static void main(String[] args) {
         
