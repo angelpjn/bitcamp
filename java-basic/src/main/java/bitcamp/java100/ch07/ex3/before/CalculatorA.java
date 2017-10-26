@@ -1,6 +1,6 @@
-package bitcamp.java100.ch07.ex1.test2;
+package bitcamp.java100.ch07.ex3.before;
 
-public class Calculator {
+public class CalculatorA {
     
     int result;
     

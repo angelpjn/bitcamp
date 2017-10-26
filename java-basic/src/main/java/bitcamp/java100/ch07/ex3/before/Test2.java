@@ -1,17 +1,17 @@
-package bitcamp.java100.ch07.ex1.test3;
+package bitcamp.java100.ch07.ex3.before;
 
-public class Test {
+public class Test2 {
 
     public static void main(String[] args) {
-        Calculator calc = new Calculator();
+        CalculatorB calc = new CalculatorB();
         
-        calc.result = 1;
+        calc.value = 1;
         calc.multiple(10);
         calc.multiple(17);
         calc.divide(3);
         calc.remainder(5);
         
-        System.out.println(calc.result);
+        System.out.println(calc.value);
         
     }
 }

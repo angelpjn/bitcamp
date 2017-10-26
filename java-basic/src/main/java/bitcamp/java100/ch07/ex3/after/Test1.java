@@ -1,9 +1,9 @@
-package bitcamp.java100.ch07.ex1.test2;
+package bitcamp.java100.ch07.ex3.after;
 
-public class Test {
+public class Test1 {
 
     public static void main(String[] args) {
-        Calculator calc = new Calculator();
+        CalculatorA calc = new CalculatorA();
         calc.plus(10);
         calc.plus(20);
         calc.minus(7);

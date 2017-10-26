@@ -11,7 +11,7 @@ public class no1_8 {
     public static void main(String[] args) {
         
         Scanner scan = new Scanner(System.in);
-//        
+        
 //        int m = scan.nextInt();
 //        int n = scan.nextInt();
 //        int o = m * n;
@@ -21,8 +21,26 @@ public class no1_8 {
                 {4, 5, 6},
                 {7, 8, 9}
                 };
+        
         int[] arr2 = new int[9];
         
+        for (int i = 0; i < arr1.length; i++) { 
+            for (int j = 0; j < arr1[i].length; j++) {
+                arr1[i][j] = arr2[3 * i + j];
+            }
+        }
+        
+        int[][] arr3 = new int[3][3];
+        for (int i = 0; i < arr1.length; i++) {
+            for (int j = 0; j < arr1[i].length; j++) {
+                System.out.print(arr1[i][j]);
+            }
+            System.out.println();
+        } 
+    }
+}
+
+/*
         if (arr1[0][0] == 0) {
             arr2[0 + 1] = 0;
             arr2[0 + 2] = 0;
@@ -69,19 +87,4 @@ public class no1_8 {
             arr2[8 - 3] = 0;
             arr2[8 - 6] = 0;
         } else {}
-        
-        for (int i = 0; i < arr1.length; i++) { 
-            for (int j = 0; j < arr1[i].length; j++) {
-                arr1[i][j] = arr2[3 * i + j];
-            }
-        }
-        
-        int[][] arr3 = new int[3][3];
-        for (int i = 0; i < arr1.length; i++) {
-            for (int j = 0; j < arr1[i].length; j++) {
-                System.out.print(arr1[i][j]);
-            }
-            System.out.println();
-        } 
-    }
-}
+ */
