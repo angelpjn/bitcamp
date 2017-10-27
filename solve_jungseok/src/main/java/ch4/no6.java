@@ -5,5 +5,16 @@
 package ch4;
 
 public class no6 {
-
+    public static void main(String[] args) {
+        int i = 0;
+        int j = 0;
+        for (i = 1; i < 7; i++) {
+            for (j = 1; j < 7; j++) {
+                if (i + j == 6) {
+                    System.out.println("6의 조합 : " + i + " " + j);
+                }
+            }
+        }
+        System.out.println();
+    }
 }

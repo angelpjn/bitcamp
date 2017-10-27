@@ -1,3 +1,4 @@
+package java100.app;
 
 public class ScoreDao { // Data Access Object
     Score[] scores = new Score[10000];

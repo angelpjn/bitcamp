@@ -20,4 +20,20 @@ package ch4;
 
 public class no12 {
 
+    public static void main(String[] args) {
+        
+        for (int i = 0; i < 3; i++) {
+            for (int j = 1; j < 4; j++) {
+                for (int k = 1; k < 4; k++) {
+                    int dan = (i * 3 + k + 1);
+                    if (dan == 10) {
+                        break;
+                    }
+                    System.out.printf("%d * %d = %d\t", dan, j, dan * j);
+                }
+                System.out.println();
+            }
+            System.out.println();
+        }
+    }
 }

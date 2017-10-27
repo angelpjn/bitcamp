@@ -13,9 +13,25 @@ public class no10 {
     public static void main(String[] args) {
         int num = 12345;
         int sum = 0;
-        /*
-        (1) 알맞은 코드를 넣어 완성하시오.
-        */
+        int i = 0;
+        while (i < 5) {
+            sum += num % 10;
+            num /= 10;
+            i++;
+        }
         System.out.println("sum="+sum);
     }
 }
+
+/*
+[문자열 사용]
+String str = Integer.toString(num);
+int[] arr = new int[5];
+for (int i = 0; i < 5; i++) {
+    arr[i] = (int) str.charAt(i) - '0';
+}
+
+for (int i = 0; i < 5; i++) {
+    sum += arr[i];
+}
+*/

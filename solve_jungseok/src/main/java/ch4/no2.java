@@ -4,26 +4,17 @@
 
 package ch4;
 
-import java.util.Scanner;
-
 public class no2 {
 
     public static void main(String[] args) {
 
-        Scanner scan = new Scanner(System.in);
+        int sum = 0;
         
-        System.out.print("정수 입력 : ");
-        int x = scan.nextInt();
-        if (10 < x && x < 20 ) {
-            System.out.println(true);
-        } else {
-            System.out.println(false);
+        for (int i = 1; i <= 20; i++) {
+            if (i % 2 != 0 && i % 3 != 0) {
+                sum += i;
+            }
         }
-        
-        System.out.print("문자 입력 : ");
-        char ch = scan.next().charAt(0);
-        if (ch != '\t' && ch != ' ') {
-            System.out.println(true);
-        }
+        System.out.println("합 : " + sum);
     }
 }

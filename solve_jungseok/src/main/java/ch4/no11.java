@@ -12,17 +12,37 @@
 
 package ch4;
 
+import java.util.Scanner;
+
 public class no11 {
     public static void main(String[] args) {
-     // Fibonnaci 수열의 시작의 첫 두 숫자를 1, 1로 한다.
-        int num1 = 1;
-        int num2 = 1;
-        int num3 = 0; // 세번째 값
-        System.out.print(num1+","+num2);
-        for (int i = 0 ; i < 8 ; i++ ) {
-            /*
-            (1) 알맞은 코드를 넣어 완성하시오.
-            */
+      
+        Scanner scan = new Scanner(System.in);
+        System.out.print("자리 수 입력 : ");
+        int length = scan.nextInt();
+
+        int[] num = new int[length];
+        num[0] = 1;
+        num[1] = 1;
+        
+        for (int i = 0 ; i < length ; i++ ) {
+            if (i < 2) {
+                continue;
+            } else {
+                num[i] = num[i - 2] + num[i - 1];
+            }
         }
+
+        System.out.print("출력 인덱스 선택 : ");
+        int choice = scan.nextInt() - 1;
+        
+        System.out.println(num[choice]);
     }
 }
+
+/*
+기존 코드
+int num1 = 1;
+int num2 = 1;
+int num3 = 0; 
+*/

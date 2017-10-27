@@ -1,53 +1,64 @@
+//: ## 캡슐화 적용
+//: - 모든 필드에 대해 외부 접근을 차단한다.
+//:   단 자식 클래스에서는 직접 접근할 수 있게 허락한다.
+//: 
+
 import java.util.Scanner;
 
-class Score {
-    String name;
-    int[] subjects;
-    int sum;
-    float aver;
+public class Score {  
     
-    
-    Score() {  // 인스턴스 생성 후 값 만들 때
+    protected String name;
+    protected int[] subjects; 
+    protected int sum;
+    protected float aver;
+
+    //: ### 생성자
+    //: > 다른 패키지에서도 호출할 수 있도록 public으로 공개한다.
+    public Score() {
         this.subjects = new int[3];
     }
     
-    Score(String name, int kor, int eng, int math) { // 값을 먼저 만들고 인스턴스를 생성할 때
+    public Score(String name, int kor, int eng, int math) {
         this.name = name;
-        this.subjects = new int[] {kor, eng, math};
+        this.subjects = new int[]{kor, eng, math};
+        
         this.compute();
     }
     
-    // 즉, 이 클래스를 사용하는 개발자들에게 선택권을 부여하는 것이다.
-     
-    void input() {
+    //: > 내부에서만 사용할 메서드이기 때문에 공개하지 않는다.
+    private void compute() {
+        for (int sub : this.subjects) {
+            this.sum += sub;
+        } 
+        this.aver = (float)this.sum / this.subjects.length;
+    }
+    
+    //: > 전체 공개할 메서드는 public으로 선언한다. 
+    public void print() {
+        System.out.printf("%-4s, %4d, %4d, %4d, %4d, %6.1f\n",  
+                this.name, 
+                this.subjects[0], 
+                this.subjects[1], 
+                this.subjects[2], 
+                this.sum, 
+                this.aver);
+    }
+    
+    public void input() {
         Scanner keyScan = new Scanner(System.in);
         
         System.out.print("이름? ");
         this.name = keyScan.nextLine();
         
-        this.subjects = new int[3]; // score에 subjects[]을 만들어야 국영수 점수 저장이 가능하다.
-        
-        System.out.print("국어 점수? ");
+        System.out.print("국어점수? ");
         this.subjects[0] = keyScan.nextInt();
-
-        System.out.print("영어 점수? ");
+        
+        System.out.print("영어점수? ");
         this.subjects[1] = keyScan.nextInt();
         
-        System.out.print("수학 점수? ");
+        System.out.print("수학점수? ");
         this.subjects[2] = keyScan.nextInt();
         
         this.compute();
     }
-
-    void compute() {
-        this.sum = this.subjects[0] + this.subjects[1] + this.subjects[2];
-        this.aver = this.sum / 3f;
-
-    }
-
-    void print() {
-        System.out.printf("%s, %d, %d, %d, %d, %f\n",
-                this.name, this.subjects[0], this.subjects[1], this.subjects[2], this.sum, this.aver);
-    }
 }
-
