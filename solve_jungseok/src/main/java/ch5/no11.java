@@ -15,27 +15,18 @@
 package ch5;
 
 class no11 {
+
     public static void main(String[] args) {
         int[][] score = { { 100, 100, 100 }, { 20, 20, 20 }, { 30, 30, 30 }, { 40, 40, 40 }, { 50, 50, 50 } };
         int[][] result = new int[score.length + 1][score[0].length + 1];
         
-        for (int i = 0; i < result.length; i++) {
-        
-            for (int j = 0; j < result[i].length; j++) {
-            
-                if (i != score.length || j != score[i].length) {
-                    result[i][j] = score[i][j];
-                } else if (j == score[i].length) {
-                    for (int k = 0; k < score.length; k++) {
-                        result[i][j] += score[i][k];
-                    }
-                } else if (i == score.length) {
-                
-                    for (int k = 0; k < score[i].length; k++) {
-                        result[i][j] += score[k][j];
-                    }
-                } else {}
-            }
+        for (int i = 0; i < score.length; i++) {
+            for (int j = 0; j < score[i].length; j++) {
+                result[i][j] = score[i][j];
+                result[i][score[0].length] += score[i][j];
+                result[score.length][j] += score[i][j];
+                result[score.length][score[0].length] += score[i][j];
+                }
         }
         
         for (int i = 0; i < result.length; i++) {
@@ -44,5 +35,5 @@ class no11 {
             }
             System.out.println();
         }
-    }
+    } // main
 }

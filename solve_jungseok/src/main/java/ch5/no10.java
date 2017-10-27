@@ -17,16 +17,24 @@ package ch5;
 
 class no10 {
     public static void main(String[] args) {
-        char[] abcCode = { '`', '~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=', '|', '[',
-                ']', '{', '}', ';', ':', ',', '.', '/' };
+        char[] abcCode = 
+            { '`', '~', '!', '@', '#', '$', '%', '^', '&', 
+              '*', '(', ')', '-', '_', '+', '=', '|', '[',
+              ']', '{', '}', ';', ':', ',', '.', '/' };
+
         char[] numCode = { 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p' };
         String src = "abc123";
         String result = "";
+        
         for (int i = 0; i < src.length(); i++) {
             char ch = src.charAt(i);
-            result += src.valueOf(abcCode[ch - 'a']);
+            if ('0' <= ch && ch <= '9') {
+                result += Character.toString(numCode[ch - '0']);
+            } else {
+                result += Character.toString(abcCode[ch - 'a']);
+            }
         }
         System.out.println("src:" + src);
         System.out.println("result:" + result);
-    }
+    } 
 }
