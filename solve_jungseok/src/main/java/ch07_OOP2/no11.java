@@ -12,26 +12,52 @@ CH:10
 CH:20
 CH:10
 CH:20
-
+*/
 package ch07_OOP2;
 
-class MyTv2 {
-    /*
-     * (1) 문제7-10의 MyTv2클래스에 gotoPrevChannel메서드를 추가하여 완성하시오.
-     */
-/*
+class MyTv3 {
+    private boolean isPowerOn;
+    private int channel;
+    private int prevChannel;
+    private int volume;
+    
+    final int MAX_VOLUME = 100;
+    final int MIN_VOLUME = 0;
+    final int MAX_CHANNEL = 100;
+    final int MIN_CHANNEL = 1;
+    
+    void setChannel(int channel) {
+        this.prevChannel = this.channel;
+        this.channel = channel;
+    }
+    
+    int getChannel() {
+        return this.channel;
+    }
+
+    void setVolume(int volume) {
+        this.volume = volume;
+    }
+    
+    int getVolume() {
+        return this.volume;
+    }
+    
+    void goToPrevChannel() {
+        setChannel(this.prevChannel);
+    }
 }
-class Exercise7_11 {
+
+class no11 {
     public static void main(String args[]) {
-        MyTv2 t = new MyTv2();
+        MyTv3 t = new MyTv3();
         t.setChannel(10);
         System.out.println("CH:" + t.getChannel());
         t.setChannel(20);
         System.out.println("CH:" + t.getChannel());
-        t.gotoPrevChannel();
+        t.goToPrevChannel();
         System.out.println("CH:" + t.getChannel());
-        t.gotoPrevChannel();
+        t.goToPrevChannel();
         System.out.println("CH:" + t.getChannel());
     }
 }
-*/
