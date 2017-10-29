@@ -17,5 +17,5 @@ e. t = (Tank)u;
 f. GroundUnit gu = t;
 */
 
-package solve_original.solve_jungseok.ch07_OOP2;
+package ch07_OOP2;
 

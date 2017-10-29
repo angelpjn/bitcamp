@@ -1,8 +1,7 @@
 /* 
 [7-7] 다음 코드의 실행했을 때 호출되는 생성자의 순서와 실행결과를 적으시오.
-*/
 
-package solve_original.solve_jungseok.ch07_OOP2;
+package ch07_OOP2;
 
 class Parent {
     int x = 100;
@@ -38,3 +37,4 @@ class Exercise7_7 {
         System.out.println("x=" + c.getX());
     }
 }
+ */

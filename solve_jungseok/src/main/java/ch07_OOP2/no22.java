@@ -16,7 +16,7 @@ double height - 높이
 매개변수 : 없음
 */
 
-package solve_original.solve_jungseok.ch07_OOP2;
+package ch07_OOP2;
 
 abstract class Shape {
     Point p;

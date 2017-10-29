@@ -5,7 +5,7 @@
 오.
 */
 
-package solve_original.solve_jungseok.ch07_OOP2;
+package ch07_OOP2;
 
 class SutdaCard {
     int num;

@@ -8,5 +8,5 @@ d. 멤버변수 - 값을 변경할 수 없다.
 
 */
 
-package solve_original.solve_jungseok.ch07_OOP2;
+package ch07_OOP2;
 

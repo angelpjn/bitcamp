@@ -11,5 +11,5 @@ d. fe instanceof Car
 e. fe instanceof Ambulance
 */
 
-package solve_original.solve_jungseok.ch07_OOP2;
+package ch07_OOP2;
 

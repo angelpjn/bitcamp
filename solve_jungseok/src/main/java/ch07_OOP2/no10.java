@@ -7,8 +7,7 @@ getter와 setter메서드를 추가하라.
 CH:10
 VOL:20
 */
-
-package solve_original.solve_jungseok.ch07_OOP2;
+package ch07_OOP2;
 
 class MyTv2 {
     boolean isPowerOn;
@@ -23,6 +22,7 @@ class MyTv2 {
      */
 }
 
+/*
 class Exercise7_10 {
     public static void main(String args[]) {
         MyTv2 t = new MyTv2();
@@ -32,3 +32,4 @@ class Exercise7_10 {
         System.out.println("VOL:" + t.getVolume());
     }
 }
+*/

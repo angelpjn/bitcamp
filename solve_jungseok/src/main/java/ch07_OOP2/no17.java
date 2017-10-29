@@ -3,7 +3,7 @@
 클래스를 상속받도록 코드를 변경하시오.
 */
 
-package solve_original.solve_jungseok.ch07_OOP2;
+package ch07_OOP2;
 
 class Marine { // 보병
     int x, y; // 현재 위치

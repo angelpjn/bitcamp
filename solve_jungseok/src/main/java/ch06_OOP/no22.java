@@ -16,10 +16,25 @@
 
 package ch06_OOP;
 
-class Exercise6_22 {
-    /*
-     * (1) isNumber메서드를 작성하시오.
-     */
+class no22 {
+
+    static boolean isNumber(String str) {
+        int sum = 0;
+
+        int count = 0;
+        for (int i = 0; i < str.length(); i++) {
+            if ((int) (str.charAt(i) - '0') < 0 || (int) (str.charAt(i) - '0') > 9) {
+                count++;
+            }
+        }
+        if (count > 0) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
     public static void main(String[] args) {
         String str = "123";
         System.out.println(str + "는 숫자입니까? " + isNumber(str));

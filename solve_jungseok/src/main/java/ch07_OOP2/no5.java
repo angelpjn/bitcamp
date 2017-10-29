@@ -1,9 +1,8 @@
 /* 
 [7-5] 다음의 코드는 컴파일하면 에러가 발생한다. 그 이유를 설명하고 에러를 수정하기
 위해서는 코드를 어떻게 바꾸어야 하는가?
-*/
 
-package solve_original.solve_jungseok.ch07_OOP2;
+package ch07_OOP2;
 
 class Product {
     int price; // 제품의 가격
@@ -29,3 +28,4 @@ class Exercise7_5 {
         Tv t = new Tv();
     }
 }
+ */

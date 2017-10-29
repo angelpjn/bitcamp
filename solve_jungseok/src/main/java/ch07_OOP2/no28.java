@@ -2,7 +2,7 @@
 [7-28] 아래의 EventHandler를 익명 클래스(anonymous class)로 변경하시오.
 */
 
-package solve_original.solve_jungseok.ch07_OOP2;
+package ch07_OOP2;
 
 import java.awt.*;
 import java.awt.event.*;

@@ -17,36 +17,54 @@
 
 [실행결과]
 1K
-72
-,6,10,1K,7,3,10,5,7,8,5,1,2,9,6,9,4,8K,4,3K,
+7
+2,6,10,1K,7,3,10,5,7,8,5,1,2,9,6,9,4,8K,4,3K,
 2
-*/
+ */
 
-package solve_original.solve_jungseok.ch07_OOP2;
+package ch07_OOP2;
 
-class SutdaDeck {
+class SutdaDeck1 {
     final int CARD_NUM = 20;
-    SutdaCard[] cards = new SutdaCard[CARD_NUM];
+    SutdaCard2[] cards = new SutdaCard2[CARD_NUM];
 
-    SutdaDeck() {
-        /*
-         * 문제 7-1의 답이므로 내용생략
-         */
+    SutdaDeck1() {
+        for (int i = 0; i < cards.length; i++) {
+            int num = i % 10 + 1;
+            boolean isKwang = (i < 10) && (num == 1 || num == 3 || num == 8);
+            cards[i] = new SutdaCard2(num, isKwang);
+        }
     }
-    /*
-     * (1) 위에 정의된 세 개의 메서드를 작성하시오.
-     */
-} // SutdaDeck
 
-class SutdaCard {
+    void shuffle() {
+        for (int i = 0; i < cards.length; i++) {
+            int num = (int) (Math.random() * 20);
+            SutdaCard2 tmp = cards[i];
+            cards[i] = cards[num];
+            cards[num] = tmp;
+        }
+    }
+
+    SutdaCard2 pick(int index) {
+
+        return cards[index];
+    }
+
+    SutdaCard2 pick() {
+        return cards[(int) (Math.random() * 20)];
+    }
+
+}
+
+class SutdaCard2 {
     int num;
     boolean isKwang;
 
-    SutdaCard() {
+    SutdaCard2() {
         this(1, true);
     }
 
-    SutdaCard(int num, boolean isKwang) {
+    SutdaCard2(int num, boolean isKwang) {
         this.num = num;
         this.isKwang = isKwang;
     }
@@ -56,9 +74,9 @@ class SutdaCard {
     }
 }
 
-class Exercise7_2 {
+class no2 {
     public static void main(String args[]) {
-        SutdaDeck deck = new SutdaDeck();
+        SutdaDeck1 deck = new SutdaDeck1();
         System.out.println(deck.pick(0));
         System.out.println(deck.pick());
         deck.shuffle();

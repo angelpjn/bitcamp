@@ -7,5 +7,5 @@ d. 다중상속을 가능하게 해준다.
 e. 패키지간의 연결을 도와준다.
 */
 
-package solve_original.solve_jungseok.ch07_OOP2;
+package ch07_OOP2;
 

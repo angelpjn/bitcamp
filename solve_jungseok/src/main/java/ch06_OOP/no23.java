@@ -15,10 +15,22 @@
 
 package ch06_OOP;
 
-class Exercise6_23 {
-    /*
-     * (1) max메서드를 작성하시오.
-     */
+class no23 {
+
+    static int max(int[] arr) {
+        int bigger = 0;
+
+        if (arr == null || arr.length == 0) {
+            return -999999;
+        } else {
+            bigger = arr[0];
+            for (int i = 1; i < arr.length; i++) {
+                bigger = Math.max(arr[i], bigger);
+            }
+            return bigger;
+        }
+    }
+
     public static void main(String[] args) {
         int[] data = { 3, 2, 9, 4, 7 };
         System.out.println(java.util.Arrays.toString(data));

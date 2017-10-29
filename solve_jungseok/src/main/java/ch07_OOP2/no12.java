@@ -8,5 +8,5 @@ e. protected가 붙으면, 다른 패키지의 자손 클래스에서 접근이 
 
 */
 
-package solve_original.solve_jungseok.ch07_OOP2;
+package ch07_OOP2;
 

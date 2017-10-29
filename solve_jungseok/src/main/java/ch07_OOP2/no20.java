@@ -2,7 +2,7 @@
 [7-20] 다음의 코드를 실행한 결과를 적으시오.
 */
 
-package solve_original.solve_jungseok.ch07_OOP2;
+package ch07_OOP2;
 
 
 class Exercise7_20 {

@@ -12,16 +12,15 @@ CH:10
 CH:20
 CH:10
 CH:20
-*/
 
-package solve_original.solve_jungseok.ch07_OOP2;
+package ch07_OOP2;
 
 class MyTv2 {
     /*
      * (1) 문제7-10의 MyTv2클래스에 gotoPrevChannel메서드를 추가하여 완성하시오.
      */
+/*
 }
-
 class Exercise7_11 {
     public static void main(String args[]) {
         MyTv2 t = new MyTv2();
@@ -35,3 +34,4 @@ class Exercise7_11 {
         System.out.println("CH:" + t.getChannel());
     }
 }
+*/
