@@ -1,3 +1,4 @@
+package ch07_OOP2;
 /* 
 [7-11] 문제7-10에서 작성한 MyTv2클래스에 이전 채널(previous channel)로 이동하는
 기능의 메서드를 추가해서 실행결과와 같은 결과를 얻도록 하시오.
@@ -12,52 +13,26 @@ CH:10
 CH:20
 CH:10
 CH:20
-*/
+
 package ch07_OOP2;
 
-class MyTv3 {
-    private boolean isPowerOn;
-    private int channel;
-    private int prevChannel;
-    private int volume;
-    
-    final int MAX_VOLUME = 100;
-    final int MIN_VOLUME = 0;
-    final int MAX_CHANNEL = 100;
-    final int MIN_CHANNEL = 1;
-    
-    void setChannel(int channel) {
-        this.prevChannel = this.channel;
-        this.channel = channel;
-    }
-    
-    int getChannel() {
-        return this.channel;
-    }
-
-    void setVolume(int volume) {
-        this.volume = volume;
-    }
-    
-    int getVolume() {
-        return this.volume;
-    }
-    
-    void goToPrevChannel() {
-        setChannel(this.prevChannel);
-    }
+class MyTv2 {
+    /*
+     * (1) 문제7-10의 MyTv2클래스에 gotoPrevChannel메서드를 추가하여 완성하시오.
+     */
+/*
 }
-
-class no11 {
+class Exercise7_11 {
     public static void main(String args[]) {
-        MyTv3 t = new MyTv3();
+        MyTv2 t = new MyTv2();
         t.setChannel(10);
         System.out.println("CH:" + t.getChannel());
         t.setChannel(20);
         System.out.println("CH:" + t.getChannel());
-        t.goToPrevChannel();
+        t.gotoPrevChannel();
         System.out.println("CH:" + t.getChannel());
-        t.goToPrevChannel();
+        t.gotoPrevChannel();
         System.out.println("CH:" + t.getChannel());
     }
 }
+*/

@@ -1,11 +1,11 @@
 /* 
 [7-20] 다음의 코드를 실행한 결과를 적으시오.
-*/
+
+ */
 
 package ch07_OOP2;
 
-
-class Exercise7_20 {
+class No20 {
     public static void main(String[] args) {
         Parent p = new Child();
         Child c = new Child();
@@ -14,7 +14,7 @@ class Exercise7_20 {
         System.out.println("c.x = " + c.x);
         c.method();
     }
-}
+} 
 
 class Parent {
     int x = 100;

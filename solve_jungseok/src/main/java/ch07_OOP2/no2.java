@@ -35,24 +35,24 @@ class SutdaDeck1 {
             cards[i] = new SutdaCard2(num, isKwang);
         }
     }
-    
+
     void shuffle() {
         for (int i = 0; i < cards.length; i++) {
-            int ran = (int) (Math.random() * 20);
+            int num = (int) (Math.random() * 20);
             SutdaCard2 tmp = cards[i];
-            cards[i] = cards[ran];
-            cards[ran] = tmp;
+            cards[i] = cards[num];
+            cards[num] = tmp;
         }
     }
-    
+
     SutdaCard2 pick(int index) {
+
         return cards[index];
     }
 
     SutdaCard2 pick() {
         return cards[(int) (Math.random() * 20)];
     }
-   
 
 }
 
@@ -74,7 +74,7 @@ class SutdaCard2 {
     }
 }
 
-class no2 {
+class No2 {
     public static void main(String args[]) {
         SutdaDeck1 deck = new SutdaDeck1();
         System.out.println(deck.pick(0));
