@@ -7,7 +7,7 @@ package ch07_OOP2;
 import java.awt.*;
 import java.awt.event.*;
 
-class Exercise7_28 {
+class No28 {
     public static void main(String[] args) {
         Frame f = new Frame();
         f.addWindowListener(new EventHandler());

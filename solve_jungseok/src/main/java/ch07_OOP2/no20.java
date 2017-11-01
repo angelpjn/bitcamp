@@ -11,10 +11,10 @@ class No20 {
         Child c = new Child();
         System.out.println("p.x = " + p.x);
         p.method();
-        System.out.println("c.x = " + c.x);
+        System.out.println("c.x = " + c.x + " " + c.y);
         c.method();
     }
-} 
+}
 
 class Parent {
     int x = 100;
@@ -25,7 +25,7 @@ class Parent {
 }
 
 class Child extends Parent {
-    int x = 200;
+    int y = 200;
 
     void method() {
         System.out.println("Child Method");

@@ -13,10 +13,12 @@ class Outer {
     }
 }
 
-class Exercise7_25 {
+class No25 {
     public static void main(String[] args) {
-        /*
-         * (1) 알맞은 코드를 넣어 완성하시오.
-         */
+        Outer out = new Outer();
+      
+        Outer.Inner inner = out.new Inner();
+        int i = inner.iv;
+        System.out.println(i);
     }
 }
