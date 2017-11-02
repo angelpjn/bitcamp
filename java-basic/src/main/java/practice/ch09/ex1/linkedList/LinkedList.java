@@ -12,8 +12,6 @@ public class LinkedList {
         Box box = new Box();
         box.value = value;
         
-        len++;
-        
         if (tail == null) {
             head = box;
             tail = box;
@@ -21,7 +19,7 @@ public class LinkedList {
             tail.next = box;
             tail = box;
         }
-        
+        len++;
     }
     
     public int size() {
@@ -29,35 +27,15 @@ public class LinkedList {
     }
     
     public Object get(int index) {
-        if (index < 0 || index >= len) {
-            return null;
-        }
         
         Box box = head;
-        for (int i = 0; i < index;i++) {
+        for (int i = 0; i < index; i++) {
             box = box.next;
         }
         return box.value;
     }
     
-    public void remove(int index) {
-        if (index < 0 || index >= len) {
-            return;
-        }
-        Box box = head;
-        
-        for (int i = 0; i < index - 1; i++) {
-            box = box.next;
-        }
-        box.next = box.next.next;
-        
-        len--;
-    }
-    
     public void insert(int index, Object value) {
-        if (index < 0 || index >= len) {
-            return;
-        }
         Box box = new Box();
         box.value = value;
         
@@ -65,21 +43,17 @@ public class LinkedList {
         for (int i = 0; i < index - 1; i++) {
             pre = pre.next;
         }
-            box.next = pre.next;
-            pre.next = box;
-            
-            len++;
+        box.next = pre.next.next;
+        pre.next = box;
+        len++;
+    }
+    
+    public void remove(int index) {
+        Box pre = head;
+        for (int i = 0; i < index - 1; i++) {
+            pre = pre.next;
+        }
+        pre.next = pre.next.next;
+        len--;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
