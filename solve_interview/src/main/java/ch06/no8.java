@@ -6,9 +6,44 @@ N을 찾으라.
 
 package ch06;
 
-public class no8 {
+import java.util.Scanner;
+
+public class No8 {
+
+    static Scanner scan = new Scanner(System.in);
+    static int count = 0;
 
     public static void main(String[] args) {
-        
+
+        int answer = 100;
+        int check = 1;
+        int gap = 0;
+
+        while (true) {
+            if (check == answer) {
+                break;
+            } else if (check < answer) {
+                goDown(check, answer);
+            } else {
+                goUp(check, answer);
+            }
+        }
+        System.out.printf("계란은 %d 층 이하에서 깨지지 않는다.\n찾은 횟 수는 %d 회이다.\n", check, count);
+    }
+
+    static void goUp(int check, int answer) {
+        int gap = check - answer;
+        if (gap % 2 != 0)
+            check++;
+        check -= gap / 2;
+        count++;
+    }
+
+    static void goDown(int check, int answer) {
+        int gap = answer - check;
+        if (gap % 2 != 0) 
+            gap++;
+        check += gap / 2;
+        count++;
     }
 }

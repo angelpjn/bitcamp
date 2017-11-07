@@ -9,7 +9,7 @@
 
 package ch06;
 
-public class no2 {
+public class No2 {
 
     public static void main(String[] args) {
         

@@ -1,0 +1,35 @@
+package practice;
+
+import java.util.Scanner;
+
+public class Prompts {
+
+    static Scanner keyScan = new Scanner(System.in);
+
+    public static boolean confirm(String message) {
+        System.out.print(message);
+        String response = keyScan.nextLine().toLowerCase();
+
+        if (response.equals("y") || response.equals("yrs") || response.equals("")) {
+            return true;
+        }
+        return false;
+    }
+
+    public static String input(String message) {
+        System.out.print(message);
+        return keyScan.nextLine();
+    }
+
+    public static boolean confirm2(String message) {
+        Scanner keyScan = new Scanner(System.in);
+        System.out.print(message);
+        String response = keyScan.nextLine().toLowerCase();
+
+        if (response.equals("n") || response.equals("no") || response.equals("")) {
+            return true;
+        }
+        return false;
+    }
+
+}

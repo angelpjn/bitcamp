@@ -7,7 +7,7 @@
 
 package ch06;
 
-public class no3 {
+public class No3 {
 
     public static void main(String[] args) {
         

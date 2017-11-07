@@ -8,7 +8,7 @@
 
 package ch06;
 
-public class no1 {
+public class No1 {
 
     public static void main(String[] args) {
         

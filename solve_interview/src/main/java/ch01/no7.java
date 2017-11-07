@@ -6,10 +6,56 @@
  */
 package ch01;
 
+import java.util.Arrays;
+import java.util.Scanner;
+
 public class no7 {
 
+    static Scanner scan = new Scanner(System.in);
+    
+    static int prompt(String message) {
+        System.out.print(message);
+        return Integer.parseInt(scan.nextLine());
+    }
+    
     public static void main(String[] args) {
         
-    }
+        int m = prompt("M 행 수 : ");
+        int n = prompt("N 열 수 : ");
+        int[][] arr1 = new int[m][n];
+        int[][] arr2 = new int[n][m];
+        
+        System.out.printf("%d * %d 행렬의 원 출력 : \n", m, n);
+        System.out.println();
+        
+        for (int col = 0; col < m; col++) {
+            for (int row = 0; row < n; row++) {
+                arr1[col][row] = col + row;
+            }
+        }
 
+        for (int col = 0; col < m; col++) {
+            for (int row = 0; row < n; row++) {
+                System.out.print(arr1[col][row] + "\t");
+            }
+            System.out.println();
+        }
+        
+        System.out.println();
+        System.out.printf("%d * %d 행렬의 90도 회전  출력 : \n", m, n);
+        System.out.println();
+        
+        for (int row = 0; row < n; row++) {
+            for (int col = 0; col < m; col++) {
+                arr2[row][col] = arr1[m - 1 - col][row];
+            }
+        }
+        
+        for (int row = 0; row < n; row++) {
+            for (int col = 0; col < m; col++) {
+                System.out.print(arr2[row][col] + "\t");
+            }
+            System.out.println();
+        }
+    }
 }

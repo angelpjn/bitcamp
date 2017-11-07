@@ -6,7 +6,7 @@ package ch01;
 
 - 예제
 · 입력 : Tact Coa
-· 출력 : True(순열:"taco cat", "atco cat" 등)
+· 출력 : True(순열:"taco cat", "tac ocat" 등)
  */
 public class no4 {
 
