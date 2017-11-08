@@ -3,34 +3,60 @@
  */
 package ch01;
 
-public class no8 {
+public class No8 {
 
     public static void main(String[] args) {
 
-        int m = 3, n = 3;
+        int m = 3;
+        int n = 4;
+        
+        System.out.println(m + "\t" + n);
 
-        int[] arr = new int[m * n];
-        int[][] arr2 = new int[m][n];
+        int[][] arr = new int[m][n];
 
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = (int) (Math.random() * m * n);
-            for (int j = 0; j < i; j++) {
-                if (arr[i] == arr[j]) {
-                    i--;
-                }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                arr[i][j] = i + j + 1;
             }
-
         }
         
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i]);
+        arr[1][2] = 0;
+
+        for (int o = 0; o < m; o++) {
+            for (int p = 0; p < n; p++) {
+                System.out.print(arr[o][p]);
+            }
+            System.out.println();
+        }
+        
+        System.out.println("--------------------");
+
+        int i = 0;
+        int j = 0;
+        loop: for (i = 0; i < m; i++) {
+            for (j = 0; j < n; j++) {
+                if (arr[i][j] == 0) {
+                    break loop;
+                }
+            }
         }
 
-//        for (int i = 0; i < arr.length; i++) {
-//            for (int j = 0; j < arr2[i].length; j++) {
-//                System.out.print(arr2[i][j] + " ");
-//            }
-//            System.out.println();
-//        }
+        int k = 0;
+        int l = 0;
+
+        for (k = 0; k < m; k++) {
+            for (l = 0; l < n; l++) {
+                if (k == i || l == j) {
+                    arr[k][l] = 0;
+                }
+            }
+        }
+
+        for (int o = 0; o < m; o++) {
+            for (int p = 0; p < n; p++) {
+                System.out.print(arr[o][p]);
+            }
+            System.out.println();
+        }
     }
 }

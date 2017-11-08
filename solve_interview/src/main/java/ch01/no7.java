@@ -6,10 +6,9 @@
  */
 package ch01;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
-public class no7 {
+public class No7 {
 
     static Scanner scan = new Scanner(System.in);
     

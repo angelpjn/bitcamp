@@ -8,19 +8,38 @@ package ch01;
 
 import java.util.Scanner;
 
-public class no9 {
+public class No9 {
+
+    static Scanner scan = new Scanner(System.in);
+
+    static String prompt(String message) {
+        System.out.print(message);
+        String str = scan.nextLine();
+        return str;
+    }
+
+    static boolean confirm(String message) {
+        System.out.print(message);
+        String res = scan.nextLine().toLowerCase();
+        if (res.equals("") || res.equals("y") || res.equals("yes"))
+            return true;
+        return false;
+    }
 
     public static void main(String[] args) {
-        StringBuffer sb = new StringBuffer();
-        
+
         while (true) {
-            
-            Member member = new Member();
-            
-            for (int i = 0; i < member.getChArr().length; i++) {
-                member.getChArr()[i] = member.strOri.charAt(i);
+            String strOri = prompt("문자열 1 입력 : ");
+            String strCheck = prompt("문자열 2 입력 : ");
+            char[] chArr = new char[strOri.length()];
+            String[] strArr = new String[strOri.length()];
+
+            StringBuffer sb = new StringBuffer();
+
+            for (int i = 0; i < chArr.length; i++) {
+                chArr[i] = strOri.charAt(i);
             }
-            
+
             for (int i = 0; i < strArr.length; i++) {
                 strArr[i] = strOri.substring(i);
                 for (int j = 0; j < i; j++) {
@@ -43,13 +62,13 @@ public class no9 {
             }
 
             System.out.println();
-            
-            String res = Check.prompt("계속할까? ").toLowerCase();
-            if (Check.confirm(res)) {
+
+            if (!confirm("계속할까? ")) {
                 System.out.println();
                 break;
+
             }
         }
-        
+
     }
 }
