@@ -6,7 +6,7 @@
 package ch08_ExceptionHandling;
 
 
-class Exercise8_6 {
+class No6 {
     public static void main(String[] args) {
         try {
             method1();

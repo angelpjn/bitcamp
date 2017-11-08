@@ -1,5 +1,6 @@
 /* 
 [8-9] 다음과 같은 조건의 예외클래스를 작성하고 테스트하시오.
+
 [참고] 생성자는 실행결과를 보고 알맞게 작성해야한다.
 * 클래스명 : UnsupportedFuctionException
 * 조상클래스명 : RuntimeException
@@ -22,16 +23,52 @@
 제어자 : public
 
 [실행결과]
-Exception in thread "main" UnsupportedFuctionException: [100]지원하지 않는 기능
-입니다.
+Exception in thread "main" UnsupportedFuctionException: [100]지원하지 않는 기능입니다.
 at Exercise8_9.main(Exercise8_9.java:5)
 
 */
 
 package ch08_ExceptionHandling;
 
-class Exercise8_9 {
+class UnsupportedFuntionException extends RuntimeException {
+
+    private final int ERR_CODE = 100;
+    private String str;
+    private int i;
+    
+    
+    public UnsupportedFuntionException() {
+        super();
+    }
+
+    public UnsupportedFuntionException(String str, int i) {
+        this.str = str;
+        this.i = i;
+    }
+    
+    public int getErrorCode() {
+        return this.ERR_CODE;
+    }
+
+    @Override
+    public String getMessage() {
+        return "[" + ERR_CODE + "]" + str;
+    }
+    
+}
+
+class No9 {
+
+    
     public static void main(String[] args) throws Exception {
-        throw new UnsupportedFuctionException("지원하지 않는 기능입니다.", 100);
+    
+        throw new UnsupportedFuntionException("지원하지 않는 기능입니다.", 100);
+        
+        
     }
 }
+
+
+
+
+

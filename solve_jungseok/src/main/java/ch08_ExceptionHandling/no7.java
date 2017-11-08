@@ -6,7 +6,7 @@
 package ch08_ExceptionHandling;
 
 
-class Exercise8_7 {
+class No7 {
     static void method(boolean b) {
         try {
             System.out.println(1);
