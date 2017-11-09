@@ -1,8 +1,6 @@
 package java100.app.domain;
 
-import java.sql.Date; // string으로 내보낼 떄 yyyy-mm-dd 형식으로 내보내며 Date.valueOf()라는 String으로 변경해주는 메소드가 있으므로 java.sql.Date를 쓸 것
-
-import java100.app.control.CSVFormatException;
+import java.sql.Date;
 
 public class Board {
     protected int no;
@@ -13,28 +11,6 @@ public class Board {
     
     public Board() {}
 
-    public Board(String csv) throws CSVFormatException {
-        String[] rec = csv.split(",");
-        if (rec.length < 5)
-            throw new CSVFormatException("CSV 데이터 항목의 개수가 올바르지 않습니다.");
-
-        try {
-            this.no = Integer.parseInt(rec[0]);
-            this.title = rec[1];
-            this.content = rec[2];
-            this.regDate = Date.valueOf(rec[3]);
-            this.viewCount = Integer.parseInt(rec[4]);
-
-        } catch (Exception e) {
-            throw new CSVFormatException("CSV 데이터 항목의 형식이 올바르지 않습니다.");
-        }
-    }
-
-    public String toCSVString() {
-        return String.format("%d,%s,%s,%s,%d",
-                this.getNo(), this.getTitle(), this.getContent(), this.getRegDate().toString(),this.getViewCount());
-    }
-    
     @Override
     public String toString() {
         return "Board [no=" + no + ", title=" + title + ", content=" + content + ", regDate=" + regDate + ", viewCount="

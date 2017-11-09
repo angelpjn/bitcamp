@@ -4,10 +4,8 @@
 //: 
 package java100.app.domain;
 
-import java100.app.control.CSVFormatException;
-
-public class Score {
-
+public class Score {  
+    
     protected String name;
     protected int kor;
     protected int eng;
@@ -15,43 +13,20 @@ public class Score {
     protected int sum;
     protected float aver;
 
-    // : ### 생성자
-    // : > 다른 패키지에서도 호출할 수 있도록 public으로 공개한다.
-    public Score() {
-    }
-
+    //: ### 생성자
+    //: > 다른 패키지에서도 호출할 수 있도록 public으로 공개한다.
+    public Score() {}
+    
     public Score(String name, int kor, int eng, int math) {
         this.name = name;
         this.kor = kor;
         this.eng = eng;
         this.math = math;
-
+        
         this.compute();
     }
-
-    public Score(String csv) throws CSVFormatException {
-        String[] rec = csv.split(",");
-        if (rec.length < 4)
-            throw new CSVFormatException("CSV 데이터 항목의 개수가 올바르지 않습니다.");
-
-        try {
-            this.name = rec[0];
-            this.kor = Integer.parseInt(rec[1]);
-            this.eng = Integer.parseInt(rec[2]);
-            this.math = Integer.parseInt(rec[3]);
-            this.compute();
-
-        } catch (Exception e) {
-            throw new CSVFormatException("CSV 데이터 항목의 형식이 올바르지 않습니다.");
-        }
-    }
     
-    public String toCSVString() {
-        return String.format("%s,%d,%d,%d,%d,%f",
-                this.getName(), this.getKor(), this.getEng(),
-                this.getMath(), this.getSum(), this.getAver());
-    }
-
+    
     public String getName() {
         return name;
     }
@@ -99,11 +74,5 @@ public class Score {
         this.sum = this.kor + this.eng + this.math;
         this.aver = this.sum / 3f;
     }
-
-    @Override
-    public String toString() {
-        return "Score [name=" + name + ", kor=" + kor + ", eng=" + eng + ", math=" + math + ", sum=" + sum + ", aver="
-                + aver + "]";
-    }
-
+    
 }

@@ -1,8 +1,5 @@
 package java100.app.control;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -11,50 +8,8 @@ import java100.app.domain.Room;
 import java100.app.util.Prompts;
 
 public class RoomController extends ArrayList<Room> implements Controller {
-    
+
     Scanner keyScan = new Scanner(System.in);
-
-    private String dataFilePath;
-    
-    public RoomController(String dataFilePath) {
-        this.dataFilePath = dataFilePath;
-        this.init();
-    }
-    
-    @Override
-    public void destroy() {
-        try (FileWriter out = new FileWriter(this.dataFilePath)) {
-            for (Room room : this) {
-                out.write(room.toCSVString() + "\n");
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void init() {
-
-        try (FileReader in = new FileReader(this.dataFilePath)) {
-            Scanner lineScan = new Scanner(in);
-
-            String csv = null;
-            while (lineScan.hasNextLine()) {
-                csv = lineScan.nextLine(); // 한글자씩 읽다가 엔터를 만나면 리턴해서 str에 레퍼런스를 저장한다.
-                try {
-                    this.add(new Room(csv));
-                } catch (CSVFormatException e) {
-                    System.err.println("CSV 데이터 형식 오류!");
-                    e.printStackTrace();
-                }
-            }
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     
     @Override
     public void execute() {
@@ -81,7 +36,7 @@ public class RoomController extends ArrayList<Room> implements Controller {
         Iterator<Room> iterator = this.iterator();
         while (iterator.hasNext()) {
             Room room = iterator.next();
-            System.out.printf("%s, %s, %d\n",  
+            System.out.printf("%-4s, %s, %d\n",  
                     room.getLocation(), 
                     room.getName(),
                     room.getCapacity());
