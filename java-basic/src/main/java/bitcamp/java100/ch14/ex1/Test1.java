@@ -47,6 +47,5 @@ public class Test1 {
         System.out.printf("마지막 변경일=%s\n", file.lastModified());
         System.out.printf("마지막 변경일=%s\n", new Date(file.lastModified()).toString());
         System.out.printf("마지막 변경일=%s\n", new Date(file.lastModified()).toLocaleString());
-        
     }
 }

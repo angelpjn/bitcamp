@@ -26,7 +26,5 @@ public class Test2 {
         System.out.printf("디렉토리2 생성=%b\n", file3.mkdirs());
         
         System.out.printf("디렉토리 삭제=%b\n", file3.delete());
-        
-        
     }
 }
