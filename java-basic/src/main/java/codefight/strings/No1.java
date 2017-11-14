@@ -1,12 +1,17 @@
+/*
+input:
+s: "VizQEogigkRZJacVELulHjG"
+Expected Output:
+"viz q eogigk r z jac v e lul hj g"
+"viz q eogigk r z jac v e lul hj g"
+Console Output:
+Empty
+*/
 package codefight.strings;
-
-import java.util.Arrays;
 
 public class No1 {
 
-    public static void main(String[] args) {
-        String s = "CodefightsIsAwesome";
-
+    String amendTheSentence(String s) {
         char[] ch = s.toCharArray();
 
         int[] upper = new int[s.length()];
@@ -14,50 +19,45 @@ public class No1 {
         for (int i = 1; i < s.length(); i++) {
             if (s.charAt(i) >= 65 && s.charAt(i) <= 90) {
                 count++;
-                upper[i] = s.indexOf(ch[i]);
+                upper[i] = 1;
             }
         }
 
+        if (count == 0) {
+            return s.toLowerCase();
+        } else {
+            
         
-        int[] upper2 = new int[ch.length + count];
-        for (int i = 1; i < upper.length; i++) {
+        int[] upper2 = new int[upper.length + count - 1];
+        
+        for (int i = 0; i < upper.length; i++) {
             upper2[i] = upper[i];
         }
-        System.out.println(Arrays.toString(upper2));
-    
-        char[] ch2 = new char[upper2.length];
+        
+        char[] ch2 = new char[upper.length + count];
 
-        for (int i = ch2.length - 1; i >= 0; i--) {
-            if (count > 1) {
-                ch2[i] = ch[i - 2];
-                if (i - 2 < 1) {
-                    count--;
-                }
-            } else if (count == 1) {
-                ch2[i] = ch[i - 1];
-                if (i < ch2.length - 1 && ch[i - 1] >= 65 && ch[i - 1] <= 90) {
-                    count--;
-                }
-            } else {
-                ch2[i] = ch[i];
+        int count2 = 0;
+        for (int i = 0;  i < ch.length; i++) {
+            ch2[i + count2] = ch[i];
+            if (upper2[i] > 0) {
+                ch2[i + count2] = ' ';
+                count2++;
+                ch2[i + count2] = ch[i];
             }
         }
+        
         String s2 = "";
         for (int i = 0; i < ch2.length; i++) {
             s2 += ch2[i];
         }
         System.out.println(s2.toLowerCase());
-        
+        return s2.toLowerCase();
+        }
+    }
+    
+    public static void main(String[] args) {
+        No1 no = new No1();
+//        no.amendTheSentence("VizQEogigkRZJacVELulHjG");
+        System.out.println(no.amendTheSentence("Hello"));
     }
 }
-// }
-// if (count == 1)
-// }
-// }}
-
-// String s2 = "";
-// for (int i = 0; i < ch2.length; i++) {
-// s2 += ch2[i];
-// }
-//
-// System.out.println(s2.toLowerCase());
