@@ -1,4 +1,4 @@
-package bitcamp.java100.ch12.ex2;
+package practice;
 
 import java.util.Iterator;
 
@@ -55,7 +55,7 @@ public class Array {
 
     }
 
-    public Iterator iterator() {
+    public MyIterator iterator() {
         return new MyIterator(); // Iterator 규칙에 따라 만든 클래스의 객체(인스턴스, 구현체) 리턴
     }
 

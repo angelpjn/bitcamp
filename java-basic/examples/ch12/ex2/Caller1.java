@@ -1,4 +1,4 @@
-package bitcamp.java100.ch12.ex2;
+package practice;
 
 import java.util.ArrayList;
 import java.util.Iterator;

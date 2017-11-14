@@ -60,7 +60,7 @@ package ch11_Collections_Framework;
 import java.io.*;
 import java.util.*;
 
-class Exercise11_14 {
+class No14 {
     static ArrayList record = new ArrayList(); // 성적데이터를 저장할 공간
     static Scanner s = new Scanner(System.in);
 
@@ -98,11 +98,29 @@ class Exercise11_14 {
          * (1) 아래의 로직에 맞게 코드를 작성하시오. 1. 화면으로부터 메뉴를 입력받는다. 메뉴의 값은 1~3사이의 값이어야 한다. 2.
          * 1~3사이의 값을 입력받지 않으면, 메뉴의 선택이 잘못되었음을 알려주고 다시 입력받는다.(유효한 값을 입력받을 때까지 반복해서
          * 입력받는다.)
+         * 원하는 메뉴를 선택하세요.(1~3) : 5
+                        메뉴를 잘못 선택하셨습니다. 다시 입력해주세요.
+                        원하는 메뉴를 선택하세요.(1~3) : 2
          */
+        int i = 0;
+        while (true) {
+            i = promptInt("원하는 메뉴를 선택하세요.(1~3) ");
+            if (i >= 0 || i <= 3) {
+                break;
+            } else {
+                System.out.print("메뉴를 잘못 선택하셨습니다. 다시 입력해주세요.");
+            }
+        }
+        
         return menu;
     } // public static int displayMenu(){
       // 데이터를 입력받는 메서드
 
+    static int promptInt(String message) {
+        System.out.print(message);
+        return Integer.parseInt(s.nextLine());
+        
+    }
     static void inputRecord() {
         System.out.println("1. 학생성적 입력하기");
         System.out.println("이름,반,번호,국어성적,영어성적,수학성적'의 순서로 공백없이 입력하세요.");
@@ -126,7 +144,7 @@ class Exercise11_14 {
         int total = 0;
         int length = record.size();
         if(length > 0) {
-        System.out.println();이 System.out.println(" 름 반 번호 국어 영어 수학 총점 평균 전교등수 반등수");
+        System.out.println(); // 이 System.out.println(" 름 반 번호 국어 영어 수학 총점 평균 전교등수 반등수");
         System.out.println("====================================================");
         for (int i = 0; i < length ; i++) {
             Student student = (Student)record.get(i);

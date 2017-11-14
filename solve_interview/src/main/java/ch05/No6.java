@@ -12,8 +12,13 @@ public class No6 {
         int a = 29;
         int b = 15;
         
-        System.out.println(a ^ b);
-        System.out.println(Integer.toBinaryString(a ^ b));
+        int count = 0;
+        
+        for (int c = a ^ b; c != 0; c = c >> 1) {
+            count += c & 1;
+        }
+        
+        System.out.println(count);
     }
     
 }
