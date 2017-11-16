@@ -7,7 +7,7 @@ Expected Output:
 Console Output:
 Empty
 */
-package codefight.strings;
+package codefight.interview.strings;
 
 public class No1 {
 
