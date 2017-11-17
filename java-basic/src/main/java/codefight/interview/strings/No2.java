@@ -26,6 +26,7 @@ int findFirstSubstringOccurrence(String s, String x) {
     }
 
 */
+
 package codefight.interview.strings;
 
 public class No2 {

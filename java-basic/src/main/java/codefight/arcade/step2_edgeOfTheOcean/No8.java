@@ -52,6 +52,15 @@ Guaranteed constraints:
 [output] integer
 
 The total price of all the rooms that are suitable for the CodeBots to live in.
+[[0,1,1,2], 
+ [0,5,0,0], 
+ [2,0,3,3]]
+ 
+ => 9
+[[1,1,1,0], 
+ [0,5,0,1], 
+ [2,1,3,10]]
+ => 9
 */
 package codefight.arcade.step2_edgeOfTheOcean;
 
@@ -59,13 +68,25 @@ public class No8 {
 
     int matrixElementsSum(int[][] matrix) {
 
-        return 1;
+        int result = 0;
+
+        for (int row = 0 ; row < matrix[0].length; row++) {
+            for (int col = 0; col < matrix.length; col++) {
+                if (matrix[col][row] == 0) {
+                    break;
+                } else {
+                    result += matrix[col][row];
+                }
+            }
+        }
+        return result;
     }
 
-
     public static void main(String[] args) {
-         int[][] sequence = {{1}, {2}};
+        int[][] matrix = { { 0, 1, 1, 2 },
+                           { 0, 5, 0, 0 },
+                           { 2, 0, 3, 3 } };
         No8 no = new No8();
-        System.out.println(no.matrixElementsSum(sequence));
+        System.out.println(no.matrixElementsSum(matrix));
     }
 }
