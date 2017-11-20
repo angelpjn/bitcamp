@@ -15,10 +15,10 @@ public class No9 {
     String[] allLongestStrings(String[] inputArray) {
 
         ArrayList<String> list = new ArrayList<>();
-        
-        int check = 0;
-        for (int i = 1; i < inputArray.length; i++) {
-            check = Math.max(inputArray[i - 1].length(), inputArray[i].length());
+
+        int check = -1;
+        for (int i = 0; i < inputArray.length; i++) {
+            check = Math.max(check, inputArray[i].length());
         }
 
         for (int i = 0; i < inputArray.length; i++) {
@@ -26,11 +26,17 @@ public class No9 {
                 list.add(inputArray[i]);
         }
 
-        return list.toArray(String[] list2);
+        String[] result = new String[list.size()];
+
+        for (int i = 0; i < list.size(); i++) {
+            result[i] = list.get(i);
+        }
+
+        return result;
     }
 
     public static void main(String[] args) {
-        String[] inputArray = {"aba", "aa", "ad", "vcd", "aba" };
+        String[] inputArray = {"aa"};
         No9 no = new No9();
         System.out.println(no.allLongestStrings(inputArray));
     }

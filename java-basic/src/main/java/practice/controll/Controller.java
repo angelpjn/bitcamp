@@ -2,7 +2,7 @@ package practice.controll;
 
 public interface Controller {
 
-    void execute();
+    void execute(Request request, Response response);
 
     void init();
     

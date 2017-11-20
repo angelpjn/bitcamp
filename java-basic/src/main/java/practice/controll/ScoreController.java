@@ -1,10 +1,12 @@
 package practice.controll;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Iterator;
-import java.util.Scanner;
 
 import practice.domain.Score;
 import practice.util.Prompts;
@@ -20,9 +22,13 @@ public class ScoreController extends GenericController<Score> {
 
     @Override
     public void destroy() {
-        try (FileWriter out = new FileWriter(this.dataFilePath)) {
+        try (PrintWriter out = new PrintWriter(
+                new BufferedWriter(
+                        new FileWriter(this.dataFilePath)))) {
             for (Score score : this.list) {
-                out.write(score.toCSVString() + "\n");
+                out.println(score.toCSVString());
+                
+                out.flush();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -32,12 +38,12 @@ public class ScoreController extends GenericController<Score> {
     @Override
     public void init() {
         try (
-            FileReader in = new FileReader(this.dataFilePath);
-            Scanner lineScan = new Scanner(in);) {
+            BufferedReader in = new BufferedReader (
+                    new FileReader(this.dataFilePath)); ) {
+                
         String csv = null;
         
-        while (lineScan.hasNext()) {
-            csv = lineScan.nextLine();
+        while ((csv = in.readLine()) != null) {
             try {
                 list.add(new Score(csv));
             } catch (CSVFormatException e) {
@@ -52,36 +58,20 @@ public class ScoreController extends GenericController<Score> {
     }
 
     @Override
-    public void execute() {
-        loop: while (true) {
-            System.out.print("성적관리> ");
-            String input = keyScan.nextLine();
+    public void execute(Request request, Response response) {
 
-            switch (input) {
-            case "add":
-                this.doAdd();
-                break;
-            case "list":
-                this.doList();
-                break;
-            case "view":
-                this.doView();
-                break;
-            case "update":
-                this.doUpdate();
-                break;
-            case "delete":
-                this.doDelete();
-                break;
-            case "main":
-                break loop;
-            default:
-                System.out.println("해당 명령이 없습니다.");
-            }
+        switch (request.getMenuPath()) {
+        case "/score/add": this.doAdd(request, response); break;
+        case "/score/list": this.doList(request, response); break;
+        case "/score/view": this.doView(request, response); break;
+        case "/score/update": this.doUpdate(request, response); break;
+        case "/score/delete": this.doDelete(request, response); break;
+        default:
+            System.out.println("해당 명령이 없습니다.");
         }
     }
 
-    public void doDelete() {
+    public void doDelete(Request request, Response response) {
         System.out.println("[성적 삭제]");
         String name = Prompts.inputString("이름? ");
 
@@ -99,7 +89,7 @@ public class ScoreController extends GenericController<Score> {
         }
     }
 
-    public void doUpdate() {
+    public void doUpdate(Request request, Response response) {
         System.out.println("[학생 정보 변경]");
         String name = Prompts.inputString("이름? ");
 
@@ -137,7 +127,7 @@ public class ScoreController extends GenericController<Score> {
         }
     }
 
-    public void doView() {
+    public void doView(Request request, Response response) {
         System.out.println("[학생 정보]");
         String name = Prompts.inputString("이름? ");
 
@@ -152,7 +142,7 @@ public class ScoreController extends GenericController<Score> {
                 score.getMath(), score.getSum(), score.getAver());
     }
 
-    public void doList() {
+    public void doList(Request request, Response response) {
         System.out.println("[성적 목록]");
 
         Iterator<Score> iterator = list.iterator();
@@ -162,7 +152,7 @@ public class ScoreController extends GenericController<Score> {
         }
     }
 
-    public void doAdd() {
+    public void doAdd(Request request, Response response) {
         System.out.println("[성적 등록]");
 
         Score score = new Score();

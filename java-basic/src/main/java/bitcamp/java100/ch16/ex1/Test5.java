@@ -19,7 +19,7 @@ public class Test5 {
         public void run() {
             // result 객체를 사용하는 경우 
             // 한 번에 한 스레드만이 접근하도록 제한 한다.
-            synchronized(result) {
+//            synchronized(result) {
                 for (int i = 1; i <= 10; i++) {
                     System.out.printf("%s(%d)\n", this.getName(), i);
                     result.sum += i;
@@ -31,8 +31,8 @@ public class Test5 {
                 // 작업이 완료되면 result 객체를 사용하기 위해
                 // 기다리고 있는 스레드에게
                 // 이제 사용해도 된다고 알린다.
-                result.notify();
-            }
+//                result.notify();
+//            }
         }
     }
     public static void main(String[] args) throws Exception {
@@ -40,16 +40,16 @@ public class Test5 {
         t.start();
         
         // result 객체는 한 번에 한 스레드만 사용하겠다고 선언한다.
-        synchronized(result) {
+//        synchronized(result) {
             // result 객체를 사용하기 전에 다른 스레드가 
             // 사용하라고 알려줄 때까지 기다린다.
             // 다른 스레드가 notify() 또는 notifyAll()을 호출하여
             // 사용하라고 알려주면 그 때서야 
             // 다른 라인을 실행한다.
-            result.wait();
+//            result.wait();
             
             System.out.println("합계=" + result.sum);
-        }
+//        }
     }
     
 }

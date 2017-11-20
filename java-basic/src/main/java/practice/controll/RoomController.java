@@ -1,8 +1,11 @@
 package practice.controll;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -23,10 +26,14 @@ public class RoomController extends ArrayList<Room> implements Controller {
     @Override
     public void destroy() {
         
-        try (FileWriter out = new FileWriter(this.dataFilePath);) {
+        try (PrintWriter out = new PrintWriter(
+                new BufferedWriter(
+                        new FileWriter(this.dataFilePath)));) {
             for (Room room : this) {
                 out.write(room.toCSVString() + "\n");
             }
+            
+            out.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,10 +42,10 @@ public class RoomController extends ArrayList<Room> implements Controller {
     @Override
     public void init() {
 
-        try (FileReader in = new FileReader(this.dataFilePath); Scanner lineScan = new Scanner(in);) {
+        try (BufferedReader in = new BufferedReader(
+                new FileReader(this.dataFilePath));) {
             String csv = null;
-            while (lineScan.hasNextLine()) {
-                csv = lineScan.nextLine();
+            while ((csv = in.readLine()) != null) {
                 try {
                     this.add(new Room(csv));
                 } catch (CSVFormatException e) {
@@ -58,17 +65,10 @@ public class RoomController extends ArrayList<Room> implements Controller {
             String input = keyScan.nextLine();
 
             switch (input) {
-            case "list":
-                this.doList();
-                break;
-            case "add":
-                this.doAdd();
-                break;
-            case "delete":
-                this.doDelete();
-                break;
-            case "main":
-                break loop;
+            case "list": this.doList(); break;
+            case "add": this.doAdd(); break;
+            case "delete": this.doDelete(); break;
+            case "main": break loop;
             default:
                 System.out.println("해당 명령이 없습니다.");
             }

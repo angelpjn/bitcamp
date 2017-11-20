@@ -40,7 +40,7 @@ public class App {
         System.out.println("서버 실행!");
 
         while (true) {
-            new HttpAgent(ss.accept()).start();
+            new RequestProcessor(ss.accept()).start();
         }
     }
 
@@ -110,10 +110,10 @@ public class App {
         app.service();
     }
     
-    class HttpAgent extends Thread {
+    class RequestProcessor extends Thread {
         Socket socket;
         
-        public HttpAgent(Socket socket) {
+        public RequestProcessor(Socket socket) {
             this.socket = socket;
         }
         
@@ -126,21 +126,8 @@ public class App {
                     PrintWriter out = new PrintWriter(
                             new BufferedOutputStream(socket.getOutputStream()));
                     ) {
-                String command = in.readLine().split(" ")[1];
-                
-                String header = null;
-                while (true) {
-                    header = in.readLine();
-                    if (header.equals(""))
-                        break;
-                }
+                String command = in.readLine();
 
-                out.println("HTTP/1.1 200 OK");
-                
-                out.println("Content-Type:text/plain;charset=UTF-8");
-                
-                out.println();
-                
                 if (command.equals("/")) {
                     hello(command, out);
                 } else {

@@ -1,83 +1,103 @@
 package practice;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import practice.controll.BoardController;
 import practice.controll.Controller;
-import practice.controll.MemberController;
-import practice.controll.RoomController;
+import practice.controll.Request;
+import practice.controll.Response;
 import practice.controll.ScoreController;
 
 public class My {
-    static Scanner keyScan = new Scanner(System.in);
+    Scanner keyScan = new Scanner(System.in);
     
-    static HashMap<String, Controller> controllerMap = 
+    HashMap<String, Controller> controllerMap = 
             new HashMap<>();
 
-    public static void main(String[] args) {
-        
-        controllerMap.put("1", new ScoreController("./data/score.csv"));
-        controllerMap.put("2", new MemberController("./data/member.csv"));
-        controllerMap.put("3", new BoardController("./data/board.csv"));
-        controllerMap.put("4", new RoomController("./data/room.csv"));
-
-        loop: while (true) {
-            System.out.println("명령> ");
-            String[] input = keyScan.nextLine().toLowerCase().split(" ");
-
-            try {
-                switch (input[0]) {
-                case "menu": doMenu(); break;
-                case "help": doHelp(); break;
-                case "go": doGo(input[1]); break;
-                case "quit": doQuit(); break loop;
-                default: doError();
-                }
-            } catch (Exception e) {
-                System.out.println("명령 처리 중 오류 발생!");
-                e.printStackTrace();
-            }
-            System.out.println();
-        }
+    void init() {
+        controllerMap.put("/score", new ScoreController("./data/score.csv"));
+//        controllerMap.put("/member", new MemberController("./data/member.csv"));
+//        controllerMap.put("/board", new BoardController("./data/board.csv"));
+//        controllerMap.put("/room", new RoomController("./data/room.csv"));
     }
+    
+    void service() throws Exception {
+        ServerSocket ss = new ServerSocket(9999);
+        System.out.println("서버 실행!");
 
-    private static void doGo(String menuNo) {
+        loop:
+        while (true) {
 
-        Controller controller = controllerMap.get(menuNo);
+            try (
+                    Socket socket = ss.accept();
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(socket.getInputStream()));
+                    PrintWriter out = new PrintWriter(
+                            new BufferedOutputStream(socket.getOutputStream()));
+                    ) {
+                while (true) {
+                    String command = in.readLine();
+                    
+                    if (command.equals("/")) {
+                        hello(command, out);
+                    } else if (command.equals("quit")) {
+                        break;
+                    } else if (command.equals("server stop")) {
+                        break loop;
+                    } else {
+                        request(command, out);
+                    }
+                    out.println();
+                    out.flush();
+                } 
+            } catch (Exception e) {}
+        }
+        
+        Collection<Controller> controllers = controllerMap.values();
+        for (Controller contorller : controllers) {
+            contorller.destroy();
+        }
+        ss.close();
+    }    
+    
+    private void request(String command, PrintWriter out) {
+        
+        String menuName = command;
+        
+        int i = command.indexOf("/", 1);
+        if (i != -1) {
+            menuName = command.substring(0, i);
+        }
+        
+        Controller controller = controllerMap.get(menuName);
         
         if (controller == null) {
-            System.out.println("해당 번호의 메뉴가 없습니다.");
+            out.println("해당 명령을 지원하지 않습니다.");
             return;
         }
         
-        controller.execute();
-    }
-    
-    private static void doHelp() {
-        System.out.println("[명령]");
-        System.out.println("menu - 메뉴 목록 출력한다.");
-        System.out.println("go 번호 - 메뉴로 이동한다.");
-        System.out.println("quit - 프로그램을 종료한다.");
+        Request request = new Request(command);
+        
+        Response response = new Response();
+        response.setWriter(out);
+        
+        controller.execute(request, response);
     }
 
-    private static void doMenu() {
-        System.out.println("1 성적관리");
-        System.out.println("2 회원관리");
-        System.out.println("3 게시판");
-        System.out.println("4 강의실");
+    private void hello(String command, PrintWriter out) {
+        out.println("안녕하세요. 성적관리 시스템입니다.");
     }
 
-    private static void doError() {
-        System.out.println("실행할 수 없는 명령입니다.");
-    }
-
-    private static void doQuit() {
-        Collection<Controller> controls = controllerMap.values();
-        for (Controller control : controls) {
-            control.destroy();
-        }
-        System.out.println("프로그램을 종료합니다.");
+    public static void main(String[] args) throws Exception {
+        My my = new My();
+        my.init();
+        my.service();
     }
 }
