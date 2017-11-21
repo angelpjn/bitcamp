@@ -56,22 +56,18 @@ public class No12 {
         countMinus = 0;
         int ii = 0;
         for (int i = 0; i < count; i++) {
-            for (int j = i + countMinus + 1; j < a.length; j++) {
-                if (a[j] == -1) {
-                    countMinus++;
-                }
+            for (int j = ii + countMinus; j < a.length; j++) {
                 if (a[j] > -1) {
                     a[j] = arr[i];
                     ii++;
-                    System.out.println("cou " + countMinus);
-                    System.out.println("ii " + ii);
                     break;
+                }
+                if (a[j] == -1) {
+                    countMinus++;
                 }
             }
         }
 
-        System.out.println(Arrays.toString(arr));
-        System.out.println(Arrays.toString(a));
         return a;
     }
 
