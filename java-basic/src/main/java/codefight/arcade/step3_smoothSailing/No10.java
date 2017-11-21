@@ -13,6 +13,11 @@ Input:
 s1: "abca"
 s2: "xyzbac"
 Expected Output: 3
+
+Input:
+s1: "a"
+s2: "b"
+Expected Output: 0
  */
 
 package codefight.arcade.step3_smoothSailing;
@@ -139,24 +144,24 @@ public class No10 {
                 end2++;
         }
         
-//        System.out.println(Arrays.toString(neoCh1));
-//        System.out.println(Arrays.toString(neoCh2));
-        
         int result = 0;
         
         for (int i = 0; i < end1; i++) {
             for (int j = 0; j < end2; j++) {
-                if (neoCh1[i] == neoCh2[j]) 
-                    result += Math.min(countCh1[i], countCh2[j]);
-                
+                try {
+                    if (neoCh1[i] == neoCh2[j]) 
+                        result += Math.min(countCh1[i], countCh2[j]);
+                } catch (Exception e) {
+                    result = 0;
+                }
             }
         }
         return result;
     }
 
     public static void main(String[] args) {
-        String s1 = "abca";
-        String s2 = "xyzbac";
+        String s1 = "a";
+        String s2 = "b";
         
         No10 no = new No10();
         
