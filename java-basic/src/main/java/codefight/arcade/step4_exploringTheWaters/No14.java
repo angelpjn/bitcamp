@@ -11,7 +11,7 @@ and the second element is the total weight of team 2 after the division is compl
 For a = [50, 60, 60, 45, 70], the output should be
 alternatingSums(a) = [180, 105].
 */
-package codefight.arcade.step3_smoothSailing;
+package codefight.arcade.step4_exploringTheWaters;
 
 import java.util.Arrays;
 
