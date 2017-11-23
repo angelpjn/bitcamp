@@ -5,12 +5,10 @@ avoidObstacles(inputArray) = 4.
 */
 package codefight.arcade.step5_islandOfKnowledge;
 
-import java.util.Arrays;
-
 public class No22 {
     int avoidObstacles(int[] inputArray) {
-
         int temp = 0;
+        int result = 0;
 
         for (int i = 0; i < inputArray.length; i++) {
             for (int j = i + 1; j < inputArray.length; j++) {
@@ -21,29 +19,25 @@ public class No22 {
                 }
             }
         }
-
-        int[] jump = new int[inputArray.length];
-
-        int count = 0;
-        for (int i = 1; i < inputArray.length; i++) {
-            if (inputArray[i] - inputArray[i - 1] > 1) {
-                count++;
-                jump[i] = inputArray[i - 1] + 1;
-            }
+        
+        int count = 2;
+        for (int i = 0; i < inputArray.length; i++) {
+            count++;
         }
-        System.out.println(count);
-
-        System.out.println(Arrays.toString(inputArray));
-        System.out.println(Arrays.toString(jump));
-
-        int result = 0;
-        loop: for (int i = 0; i < jump.length; i++) {
-            for (int j = 0; j < inputArray.length; j++) {
-                if (jump[i] == 0 || jump[i] * (j + 1) == inputArray[j])
-                    break;
-                else if (jump[i] * (j + 1) > inputArray[inputArray.length - 1]) {
-                    result = jump[i];
-                    break loop;
+        
+        if (count == inputArray[inputArray.length - 1] + 1)
+            return count;
+        
+        end: for (int i = 2; i < inputArray[inputArray.length - 1] + 1; i++) {
+            loop: for (int j = 1; j < inputArray[inputArray.length - 1] * 2 + 1; j++) {
+                for (int k = 0; k < inputArray.length; k++) {
+                    if (i * j == inputArray[k]) {
+                        System.out.println(j);
+                        break loop;
+                    } else if (i * j > inputArray[inputArray.length - 1] + 1) {
+                        result = i;
+                        break end;
+                    }
                 }
             }
         }
@@ -54,7 +48,7 @@ public class No22 {
     public static void main(String[] args) {
         No22 no = new No22();
 
-        int[] inputArray = { 1, 4, 10, 6, 2 };
+        int[] inputArray = { 2, 3 };
 
         System.out.println(no.avoidObstacles(inputArray));
     }
