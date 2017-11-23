@@ -5,8 +5,6 @@ avoidObstacles(inputArray) = 4.
 */
 package codefight.arcade.step5_islandOfKnowledge;
 
-import java.util.Arrays;
-
 public class No24 {
     int[][] minesweeper(boolean[][] matrix) {
 
@@ -20,8 +18,6 @@ public class No24 {
             }
         }
         
-        System.out.println(Arrays.deepToString(chage));
-
         for (int i = 0; i < chage.length; i++) {
             for (int j = 0; j < chage[i].length; j++) {
                 
@@ -29,19 +25,27 @@ public class No24 {
                     for (int k = i; k < i + 2; k++) {
                         if (j == 0) {
                             for (int l = j; l < j + 2; l++) {
-                                result[i][j] += chage[k][l];
+                                if (i == k && j == l) 
+                                    continue;
+                                else 
+                                    result[i][j] += chage[k][l];
                             }
 
                         } else if (j == chage[i].length - 1){
                             for (int l = j - 1; l < j + 1; l++) {
-                                result[i][j] += chage[k][l];
+                                if (i == k && j == l) 
+                                    continue;
+                                else 
+                                    result[i][j] += chage[k][l];
                             }
                             
                         }  else if (0 < j && j < chage[0].length - 1) {
                             for (int l = j - 1; l < j + 2; l++) {
-                                result[i][j] += chage[k][l];
+                                if (i == k && j == l) 
+                                    continue;
+                                else 
+                                    result[i][j] += chage[k][l];
                             }
-                            
                         }
                     }
                     
@@ -49,17 +53,26 @@ public class No24 {
                     for (int k = i - 1; k < i + 1; k++) {
                         if (j == 0) {
                             for (int l = j; l < j + 2; l++) {
-                                result[i][j] += chage[k][l];
+                                if (i == k && j == l) 
+                                    continue;
+                                else 
+                                    result[i][j] += chage[k][l];
                             }
 
                         } else if (j == chage[i].length - 1){
                             for (int l = j - 1; l < j + 1; l++) {
-                                result[i][j] += chage[k][l];
+                                if (i == k && j == l) 
+                                    continue;
+                                else 
+                                    result[i][j] += chage[k][l];
                             }
                             
                         } else if (0 < j && j < chage[0].length - 1)  {
                             for (int l = j - 1; l < j + 2; l++) {
-                                result[i][j] += chage[k][l];
+                                if (i == k && j == l) 
+                                    continue;
+                                else 
+                                    result[i][j] += chage[k][l];
                             }
                             
                         }
@@ -69,26 +82,32 @@ public class No24 {
                     for (int k = i - 1; k < i + 2; k++) {
                         if (j == 0) {
                             for (int l = j; l < j + 2; l++) {
-                                result[i][j] += chage[k][l];
+                                if (i == k && j == l) 
+                                    continue;
+                                else 
+                                    result[i][j] += chage[k][l];
                             }
 
                         } else if (j == chage[i].length - 1){
                             for (int l = j - 1; l < j + 1; l++) {
-                                result[i][j] += chage[k][l];
+                                if (i == k && j == l) 
+                                    continue;
+                                else 
+                                    result[i][j] += chage[k][l];
                             }
                             
                         } else if (0 < j && j < chage[0].length - 1) {
                             for (int l = j - 1; l < j + 2; l++) {
-                                result[i][j] += chage[k][l];
+                                if (i == k && j == l) 
+                                    continue;
+                                else 
+                                    result[i][j] += chage[k][l];
                             }
-                            
                         }
                     }
                 }
             }
         }
-        System.out.println(Arrays.deepToString(chage));
-        System.out.println(Arrays.deepToString(result));
         return result;
     }
 
