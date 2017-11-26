@@ -23,8 +23,10 @@ public class No35 {
     char firstDigit(String inputString) {
         char ch = ' ';
         for (int i = 0; i < inputString.length(); i++) {
-            if ('0' <= inputString.charAt(i) && inputString.charAt(i) <= '9')
-                ch = (char)Math.max(ch, inputString.charAt(i));
+            if ('0' <= inputString.charAt(i) && inputString.charAt(i) <= '9') {
+                ch = inputString.charAt(i);
+                break;
+            }
             else 
                 continue;
         }
@@ -35,7 +37,7 @@ public class No35 {
     public static void main(String[] args) {
         No35 no = new No35();
 
-        String inputString = "var_1__Int";
+        String inputString = "var_2__I1nt";
 
         System.out.println(no.firstDigit(inputString));
     }
