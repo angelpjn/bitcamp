@@ -1,57 +1,25 @@
 package java100.app.control;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Iterator;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import java100.app.domain.Member;
 
 public class MemberController extends GenericController<Member> {
 
-    private String dataFilePath;
-    
-    public MemberController(String dataFilePath) {
-        this.dataFilePath = dataFilePath;
-        this.init();
-    }
-    
     @Override
-    public void destroy() {
-        try (PrintWriter out = new PrintWriter(
-                new BufferedWriter(
-                        new FileWriter(this.dataFilePath)))) {
-            for (Member member : this.list) {
-                out.println(member.toCSVString());
-            }
-            
-            out.flush();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    public void destroy() {}
 
     @Override
     public void init() {
 
-        try (BufferedReader in = new BufferedReader(
-                new FileReader(this.dataFilePath));) {
-            
-            String csv = null;
-            while ((csv = in.readLine()) != null) {
-                try {
-                    list.add(new Member(csv));
-                } catch (CSVFormatException e) {
-                    System.err.println("CSV 데이터 형식 오류!");
-                    e.printStackTrace();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("JDBC 드라이버 클래스를 찾을 수 없습니다.");
         }
     }
 
@@ -72,13 +40,22 @@ public class MemberController extends GenericController<Member> {
     private void doList(Request request, Response response) {
         PrintWriter out = response.getWriter();
         out.println("[회원 목록]");
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
+                PreparedStatement pstmt = con.prepareStatement(
+                        "select no, name, email, regdt from ex_memb");
+                ResultSet rs = pstmt.executeQuery();) {
 
-        Iterator<Member> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            Member member = iterator.next();
-            out.printf("%-4s, %s\n",  
-                    member.getName(), 
-                    member.getEmail());
+            while (rs.next()) {
+                out.printf("%d, %s, %s, %s\n",
+                        rs.getInt("no"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getDate("regdt"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println(e.getMessage());
         }
     }
 
@@ -86,40 +63,50 @@ public class MemberController extends GenericController<Member> {
         PrintWriter out = response.getWriter();
         out.println("[회원 등록]");
         
-        Member member = new Member();
-        member.setEmail(request.getParameter("email"));
-        
-        if (findByEmail(member.getEmail()) != null) {
-            out.println("이미 등록된 이메일입니다.");
-            return;
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
+                PreparedStatement pstmt = con.prepareStatement(
+                        "insert into ex_memb(name, email, pwd, regdt) values(?, ?, password(?), now())");
+                ) {
+                pstmt.setString(1, request.getParameter("name"));
+                pstmt.setString(2, request.getParameter("email"));
+                pstmt.setString(3, request.getParameter("password"));
+                pstmt.executeUpdate();
+                out.println("저장하였습니다.");
+                
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println(e.getMessage());
         }
-        
-        member.setName(request.getParameter("name"));
-        member.setPassword(request.getParameter("password"));
-
-        list.add(member);
-        
-        out.println("저장하였습니다.");
     }
     
     private void doView(Request request, Response response) {
-        
         PrintWriter out = response.getWriter();
-        
+
         out.println("[회원 상세 정보]");
-        
-        String email = request.getParameter("email");
-        
-        Member member = findByEmail(email);
-        
-        if (member == null) {
-            out.printf("'%s'의 회원 정보가 없습니다.\n", email);
-            return;
+
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
+                PreparedStatement pstmt = con.prepareStatement(
+                        "select no, name, email from ex_memb where no=?");
+                ) {
+
+            pstmt.setInt(1, Integer.parseInt(request.getParameter("no")));
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                out.printf("번호: %d\n", rs.getInt("no"));
+                out.printf("이름: %s\n", rs.getString("name"));
+                out.printf("이메일: %s\n", rs.getString("email"));
+            } else {
+                out.printf("'%s'의 회원 정보가 없습니다.\n", request.getParameter("no"));
+            }
+            rs.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println(e.getMessage());
         }
-        
-        out.printf("이름: %s\n", member.getName());
-        out.printf("이메일: %s\n", member.getEmail());
-        out.printf("암호: %s\n", member.getPassword());
     } 
 
     private void doUpdate(Request request, Response response) {
@@ -127,48 +114,50 @@ public class MemberController extends GenericController<Member> {
         PrintWriter out = response.getWriter();
         out.println("[회원 변경]");
 
-        String email = request.getParameter("email");
-        
-        Member member = findByEmail(email);
-        
-        if (member == null) {
-            out.printf("'%s'의 회원 정보가 없습니다.\n", email);
-            return;
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
+                PreparedStatement pstmt = con.prepareStatement(
+                        "update ex_memb set name=?, pwd=password(?), email=? where no=?");
+                ) {
+            
+                pstmt.setString(1, request.getParameter("name"));
+                pstmt.setString(2, request.getParameter("password"));
+                pstmt.setString(3, request.getParameter("email"));
+                pstmt.setInt(4, Integer.parseInt(request.getParameter("no")));
+                
+                if (pstmt.executeUpdate() > 0) {
+                    out.println("변경하였습니다.");
+                } else {
+                    out.printf("'%s'의 회원 정보가 없습니다.\n", request.getParameter("no"));
+                }
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println(e.getMessage());
         }
-        
-        member.setName(request.getParameter("name"));
-        member.setPassword(request.getParameter("password"));
-
-        out.println("변경하였습니다.");
     }
     
     private void doDelete(Request request, Response response) {
         
         PrintWriter out = response.getWriter();
         out.println("[회원 삭제]");
-        
-        String email = request.getParameter("email");
-        
-        Member member = findByEmail(email);
-        
-        if (member == null) {
-            out.printf("'%s'의 회원 정보가 없습니다.\n", email);
-            return;
-        }
 
-        list.remove(member);
-        out.println("삭제하였습니다.");
-    }
-    
-    private Member findByEmail(String email) {
-        Iterator<Member> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            Member member = iterator.next();
-            if (member.getEmail().equals(email)) {
-                return member;
-            }
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
+                PreparedStatement pstmt = con.prepareStatement(
+                        "delete from ex_memb where no=?");
+                ) {
+            
+                pstmt.setInt(1, Integer.parseInt(request.getParameter("no")));
+                
+                if (pstmt.executeUpdate() > 0) {
+                    out.println("삭제하였습니다.");
+                } else {
+                    out.printf("'%s'의 회원 정보가 없습니다.\n", request.getParameter("no"));
+                }
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println(e.getMessage());
         }
-        return null;
     }
 }
 

@@ -1,3 +1,4 @@
+//실행 후 브라우저 scorecontroller 접속 명령 : http://localhost:9999/score/list
 
 package java100.app;
 
@@ -28,10 +29,22 @@ public class App {
             new HashMap<>();
 
     void init() {
-        controllerMap.put("/score", new ScoreController("./data/score.csv"));
-        controllerMap.put("/member", new MemberController("./data/member.csv"));
-        controllerMap.put("/board", new BoardController("./data/board.csv"));
-        controllerMap.put("/room", new RoomController("./data/room.csv")); 
+        ScoreController scoreController = new ScoreController();
+        scoreController.init();
+        controllerMap.put("/score", scoreController);
+
+        RoomController roomController = new RoomController();
+        roomController.init();
+        controllerMap.put("/room", roomController); 
+
+        MemberController memberController = new MemberController();
+        memberController.init();
+        controllerMap.put("/member", memberController);
+
+        BoardController boardController = new BoardController();
+        boardController.init();
+        controllerMap.put("/board", boardController);
+        
 
     }
 
@@ -86,7 +99,7 @@ public class App {
         out.println("[회원]");
         out.println("목록보기: /member/list");
         out.println("상세보기: /member/view?email=이메일");
-        out.println("등록: /member/add?email=이메일&name=이름&password=암호");
+        out.println("등록: /member/add?name=이름&email=이메일&password=암호");
         out.println("변경: /member/update?email=이메일&name=이름&password=암호");
         out.println("삭제: /member/delete?email=이메일");
         out.println("[게시판]");
