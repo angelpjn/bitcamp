@@ -1,3 +1,4 @@
+//:   
 package practice;
 
 import java.io.BufferedOutputStream;
@@ -6,10 +7,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import practice.context.BeansException;
 import practice.control.BoardController;
 import practice.control.Controller;
 import practice.control.MemberController;
@@ -17,52 +18,56 @@ import practice.control.Request;
 import practice.control.Response;
 import practice.control.RoomController;
 import practice.control.ScoreController;
+import practice.util.DataSource;
 
 public class App {
 
     ServerSocket ss;
     Scanner keyScan = new Scanner(System.in);
 
-    HashMap<String,Controller> controllerMap = 
-            new HashMap<>();
+    static HashMap<String,Object> beanContainer = new HashMap<>();
 
+    public static Object getBean(String name) {
+        Object bean = beanContainer.get(name);
+        if (bean == null)
+            throw new BeansException("빈을 찾을 수 없습니다.");
+        return bean;
+    }
+    
     void init() {
         ScoreController scoreController = new ScoreController();
         scoreController.init();
-        controllerMap.put("/score", scoreController);
+        beanContainer.put("/score", scoreController);
         
         MemberController memberController = new MemberController();
         memberController.init();
-        controllerMap.put("/member", memberController);
+        beanContainer.put("/member", memberController);
         
         BoardController boardController = new BoardController();
         boardController.init();
-        controllerMap.put("/board", boardController);
+        beanContainer.put("/board", boardController);
         
         RoomController roomController = new RoomController();
         roomController.init();
-        controllerMap.put("/room", roomController); 
+        beanContainer.put("/room", roomController); 
 
+        DataSource ds = new DataSource();
+        ds.setDriverClassName("com.mysql.jdbc.Driver");
+        ds.setUrl("jdbc:mysql://localhost:3306/studydb");
+        ds.setUserName("study");
+        ds.setPassword("1111");
+        
+        beanContainer.put("mysqlDataSource", ds);
     }
 
     void service() throws Exception {
-        // 서버 소켓 준비
         ss = new ServerSocket(9999);
         System.out.println("서버 실행!");
         
         while (true) {
-            // 클라이언트가 연결되면, 스레드에 처리를 위임한다.
             new HttpAgent(ss.accept()).start();
         }
     }
-
-    private void save() {
-        Collection<Controller> controllers = controllerMap.values();
-        for (Controller controller : controllers) {
-            controller.destroy(); // List에 들어있는 값을 파일에 저장.
-        }
-    }
-
 
     private void request(String command, PrintWriter out) {
 
@@ -73,21 +78,19 @@ public class App {
             menuName = command.substring(0, i);
         }
 
-        Controller controller = controllerMap.get(menuName);
+        Object controller = beanContainer.get(menuName);
 
-        if (controller == null) {
+        if (controller == null && controller instanceof Controller) {
             out.println("해당 명령을 지원하지 않습니다.");
             return;
         }
 
-        // Controller를 실행하기 전에 컨트롤러가 작업하기 편하게
-        // 클라이언트가 보낸 명령을 분석하여 객체 담아 둔다.
         Request request = new Request(command);
         
         Response response = new Response();
         response.setWriter(out);
         
-        controller.execute(request, response);
+        ((Controller)controller).execute(request, response);
     }
 
     private void hello(String command, PrintWriter out) {
@@ -126,9 +129,6 @@ public class App {
                     PrintWriter out = new PrintWriter(
                             new BufferedOutputStream(socket.getOutputStream()));
                     ) {
-                // HTTP 요청 읽기
-                // => request-line 읽기
-                // 예) GET /score/list HTTP/1.1 (CRLF)
                 String command = in.readLine().split(" ")[1];
 
                 // => header 읽기
@@ -139,26 +139,16 @@ public class App {
                         break;
                 }
                 
-                // HTTP 응답 출력하기 
-                // => status-line 출력
-                // 예) HTTP/1.1 200 ok (CRLF)
                 out.println("HTTP/1.1 200 OK");
                 
-                // => 콘텐츠의 MIME 타입과 인코딩 문자집합에 대한 정보를 출력한다. 
                 out.println("Content-Type:text/plain;charset=UTF-8");
                 
-                // => 헤더의 끝임을 표시하기 위해 빈 줄을 출력한다.
                 out.println();
                 
-                // 명령어에 따라 처리를 분기하여 콘텐츠를 출력한다.
                 if (command.equals("/")) {
                     hello(command, out);
                 } else {
                     request(command, out);
-                    
-                    // 클라이언트와 연결을 끊는 과정이 따로 없기 때문에
-                    // 각 요청을 처리할 때 마다 바로 저장해야 한다.
-                    save();
                 }
                 out.println(); // 응답을 완료를 표시하기 위해 빈줄 보냄.
                 out.flush();

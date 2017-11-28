@@ -1,5 +1,4 @@
-//실행 후 브라우저 scorecontroller 접속 명령 : http://localhost:9999/score/list
-
+//:   
 package java100.app;
 
 import java.io.BufferedOutputStream;
@@ -20,6 +19,7 @@ import java100.app.control.Response;
 import java100.app.control.RoomController;
 import java100.app.control.ScoreController;
 
+//
 public class App {
 
     ServerSocket ss;
@@ -32,24 +32,25 @@ public class App {
         ScoreController scoreController = new ScoreController();
         scoreController.init();
         controllerMap.put("/score", scoreController);
-
+        
+        MemberController memberController = new MemberController();
+        memberController.init();
+        controllerMap.put("/member", memberController);
+        
+        BoardController boardController = new BoardController();
+        boardController.init();
+        controllerMap.put("/board", boardController);
+        
         RoomController roomController = new RoomController();
         roomController.init();
         controllerMap.put("/room", roomController); 
 
-        MemberController memberController = new MemberController();
-        memberController.init();
-        controllerMap.put("/member", memberController);
-
-        BoardController boardController = new BoardController();
-        boardController.init();
-        controllerMap.put("/board", boardController);
     }
 
     void service() throws Exception {
         ss = new ServerSocket(9999);
         System.out.println("서버 실행!");
-
+        
         while (true) {
             new HttpAgent(ss.accept()).start();
         }
@@ -58,9 +59,10 @@ public class App {
     private void save() {
         Collection<Controller> controllers = controllerMap.values();
         for (Controller controller : controllers) {
-            controller.destroy();
+            controller.destroy(); // List에 들어있는 값을 파일에 저장.
         }
     }
+
 
     private void request(String command, PrintWriter out) {
 
@@ -79,6 +81,7 @@ public class App {
         }
 
         Request request = new Request(command);
+        
         Response response = new Response();
         response.setWriter(out);
         
@@ -94,23 +97,8 @@ public class App {
         out.println("변경: /score/update?name=이름&kor=점수&eng=점수&math=점수");
         out.println("삭제: /score/delete?name=이름");
         out.println("[회원]");
-        out.println("목록보기: /member/list");
-        out.println("상세보기: /member/view?email=이메일");
-        out.println("등록: /member/add?name=이름&email=이메일&password=암호");
-        out.println("변경: /member/update?email=이메일&name=이름&password=암호");
-        out.println("삭제: /member/delete?email=이메일");
         out.println("[게시판]");
-        out.println("목록보기: /board/list");
-        out.println("상세보기: /board/view?no=번호");
-        out.println("등록: /board/add?no=번호&title=제목&content=내용");
-        out.println("변경: /board/update?no=번호&title=제목&content=내용");
-        out.println("삭제: /board/delete?no=번호");
         out.println("[강의실]");
-        out.println("목록보기: /room/list");
-        out.println("상세보기: /room/view?name=이름");
-        out.println("등록: /room/add?name=이름&location=지역&capacity=수용인원");
-        out.println("변경: /room/update?name=이름&location=지역&capacity=수용인원");
-        out.println("삭제: /room/delete?name=이름");
 
     }
 
@@ -130,21 +118,22 @@ public class App {
         @Override
         public void run() {
             try (
-                    Socket socket = this.socket;
+                    Socket socket = this.socket; // 왜? 자동 close() 호출!
                     BufferedReader in = new BufferedReader(
                             new InputStreamReader(socket.getInputStream()));
                     PrintWriter out = new PrintWriter(
                             new BufferedOutputStream(socket.getOutputStream()));
                     ) {
                 String command = in.readLine().split(" ")[1];
-                
+
+                // => header 읽기
                 String header = null;
                 while (true) {
                     header = in.readLine();
-                    if (header.equals(""))
+                    if (header.equals("")) // 빈 줄을 만나면 요청 데이터의 끝!
                         break;
                 }
-
+                
                 out.println("HTTP/1.1 200 OK");
                 
                 out.println("Content-Type:text/plain;charset=UTF-8");
@@ -155,27 +144,19 @@ public class App {
                     hello(command, out);
                 } else {
                     request(command, out);
-
+                    
                     save();
                 }
-                out.println();
+                out.println(); // 응답을 완료를 표시하기 위해 빈줄 보냄.
                 out.flush();
+                
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
+
 }
-
-
-
-
-
-
-
-
-
-
 
 
 

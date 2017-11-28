@@ -1,16 +1,13 @@
 package practice.control;
 
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.List;
 
-import dao.ScoreDao;
+import practice.dao.ScoreDao;
 import practice.domain.Score;
 
 public class ScoreController implements Controller {
+    
     ScoreDao scoreDao = new ScoreDao();
     
     @Override
@@ -58,19 +55,17 @@ public class ScoreController implements Controller {
         out.println("[성적 변경]");
         
         try {
-            
             Score score = new Score();
+            score.setNo(Integer.parseInt(request.getParameter("no")));
             score.setName(request.getParameter("name"));
             score.setKor(Integer.parseInt(request.getParameter("kor")));
             score.setEng(Integer.parseInt(request.getParameter("eng")));
             score.setMath(Integer.parseInt(request.getParameter("math")));
-            score.setNo(Integer.parseInt(request.getParameter("no")));
             
             if(scoreDao.update(score) > 0) {
                 out.println("변경하였습니다.");
             } else {
-                out.printf("'%s'의 성적 정보가 없습니다.\n", 
-                        request.getParameter("no"));
+                out.printf("'%s'의 성적 정보가 없습니다.\n", score.getNo());
             }
             
         } catch (Exception e) {
@@ -97,7 +92,7 @@ public class ScoreController implements Controller {
                 out.printf("합계: %d\n", score.getSum());
                 out.printf("평균: %.1f\n", score.getAver());
             } else {
-                out.printf("'%d'의 성적 정보가 없습니다.\n", no);
+                out.printf("'%d'의 성적 정보가 없습니다.\n", no); 
             }
             
         } catch (Exception e) {
@@ -116,8 +111,8 @@ public class ScoreController implements Controller {
             for (Score score : list) {
                 out.printf("%4d, %-4s, %4d, %6.1f\n",
                         score.getNo(),
-                        score.getName(),
-                        score.getSum(),
+                        score.getName(), 
+                        score.getSum(), 
                         score.getAver());
             }
             
