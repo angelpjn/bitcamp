@@ -3,13 +3,19 @@ package practice.control;
 import java.io.PrintWriter;
 import java.util.List;
 
+import practice.annotation.Component;
 import practice.dao.MemberDao;
 import practice.domain.Member;
 
+@Component("/member")
 public class MemberController implements Controller {
     
-    MemberDao memberDao = new MemberDao();
+    MemberDao memberDao;
     
+    public void setMemberDao(MemberDao memberDao) {
+        this.memberDao = memberDao;
+    }
+
     @Override
     public void destroy() {}
     

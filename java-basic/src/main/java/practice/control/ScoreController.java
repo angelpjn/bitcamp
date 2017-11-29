@@ -3,13 +3,19 @@ package practice.control;
 import java.io.PrintWriter;
 import java.util.List;
 
+import practice.annotation.Component;
 import practice.dao.ScoreDao;
 import practice.domain.Score;
 
+@Component("/score")
 public class ScoreController implements Controller {
     
-    ScoreDao scoreDao = new ScoreDao();
+    ScoreDao scoreDao;
     
+    public void setScoreDao(ScoreDao scoreDao) {
+        this.scoreDao = scoreDao;
+    }
+
     @Override
     public void destroy() {}
     

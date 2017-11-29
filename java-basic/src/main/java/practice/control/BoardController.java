@@ -3,13 +3,19 @@ package practice.control;
 import java.io.PrintWriter;
 import java.util.List;
 
-import practice.dao.BoardDao;
+import practice.annotation.Component;
+import practice.dao.mysql.BoardDaoImpl;
 import practice.domain.Board;
 
+@Component("/board")
 public class BoardController implements Controller {
     
-    BoardDao boardDao = new BoardDao();
+    BoardDaoImpl boardDao;
     
+    public void setBoardDao(BoardDaoImpl boardDao) {
+        this.boardDao = boardDao;
+    }
+
     @Override
     public void destroy() {}
     

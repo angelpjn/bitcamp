@@ -7,57 +7,30 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Scanner;
 
-import practice.context.BeansException;
-import practice.control.BoardController;
+import practice.context.ApplicationContext;
 import practice.control.Controller;
-import practice.control.MemberController;
 import practice.control.Request;
 import practice.control.Response;
-import practice.control.RoomController;
-import practice.control.ScoreController;
 import practice.util.DataSource;
 
 public class App {
 
     ServerSocket ss;
-    Scanner keyScan = new Scanner(System.in);
-
-    static HashMap<String,Object> beanContainer = new HashMap<>();
-
-    public static Object getBean(String name) {
-        Object bean = beanContainer.get(name);
-        if (bean == null)
-            throw new BeansException("빈을 찾을 수 없습니다.");
-        return bean;
-    }
+    ApplicationContext beanContainer;
     
     void init() {
-        ScoreController scoreController = new ScoreController();
-        scoreController.init();
-        beanContainer.put("/score", scoreController);
         
-        MemberController memberController = new MemberController();
-        memberController.init();
-        beanContainer.put("/member", memberController);
+        beanContainer = new ApplicationContext("practice");
         
-        BoardController boardController = new BoardController();
-        boardController.init();
-        beanContainer.put("/board", boardController);
-        
-        RoomController roomController = new RoomController();
-        roomController.init();
-        beanContainer.put("/room", roomController); 
-
         DataSource ds = new DataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
         ds.setUrl("jdbc:mysql://localhost:3306/studydb");
         ds.setUserName("study");
         ds.setPassword("1111");
+        beanContainer.addBean("mysqlDataSource", ds);
         
-        beanContainer.put("mysqlDataSource", ds);
+        beanContainer.refreshBeanFactory();
     }
 
     void service() throws Exception {
@@ -78,7 +51,7 @@ public class App {
             menuName = command.substring(0, i);
         }
 
-        Object controller = beanContainer.get(menuName);
+        Object controller = beanContainer.getBean(menuName);
 
         if (controller == null && controller instanceof Controller) {
             out.println("해당 명령을 지원하지 않습니다.");

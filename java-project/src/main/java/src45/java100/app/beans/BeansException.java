@@ -1,6 +1,7 @@
 package src45.java100.app.beans;
 
 public class BeansException extends RuntimeException {
+    
     private static final long serialVersionUID = 1L;
 
     public BeansException() {
@@ -23,5 +24,4 @@ public class BeansException extends RuntimeException {
         super(cause);
     }
 
-    
 }
