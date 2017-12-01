@@ -12,26 +12,23 @@ buildPalindrome(st) = "abcdcba".
 package codefight.arcade.step10_eruptionofLight;
 
 public class No46 {
-    String buildPalindrome(String st) {
-        if (st.equals(new StringBuffer(st).reverse().toString()))
-            return st;
-        
-        String result = "";
-        for (int i = 0; i < st.length(); i++) {
-            StringBuffer buf = new StringBuffer(st.substring(0, i + 1)).reverse();
-            result = st + buf.toString();
-            if (result.substring(0, result.length() / 2)
-                    .equals(new StringBuffer(result).reverse().toString().substring(0, result.length() / 2)))
-                break;
-        }
-        return result;
+
+    int electionsWinners(int[] votes, int k) {
+
+        int center = st.length() / 2;
+        String strEven = checkEven(st, center);
+        String strOdd = checkOdd(st, center);
+        if (strEven.length() > strOdd.length())
+            return strOdd;
+        return strEven;
     }
 
     public static void main(String[] args) {
         No46 no = new No46();
-        
-        String st = "abcdc";
-        
+
+        // String st = "abcdc";
+        String st = "abcdefgfhihghih";
+
         System.out.println(no.buildPalindrome(st));
     }
 
