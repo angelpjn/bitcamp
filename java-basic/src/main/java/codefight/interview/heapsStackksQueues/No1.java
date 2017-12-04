@@ -1,51 +1,55 @@
 /*
-input:
-s: "VizQEogigkRZJacVELulHjG"
-Expected Output:
-"viz q eogigk r z jac v e lul hj g"
-"viz q eogigk r z jac v e lul hj g"
-Console Output:
-Empty
+
 */
 package codefight.interview.heapsStackksQueues;
-
-import java.util.HashMap;
-import java.util.Set;
 
 public class No1 {
 
     int kthLargestElement(int[] nums, int k) {
-        int result = 0;
-        HashMap<Integer, Integer> map = new HashMap<>();
-        int count = 0;
-        Set<Object> keySet = props.keySet();
-        for (Object key : keySet) {
-            String name = (String)key;
-            Class<?> clazz = Class.forName(props.getProperty(name));
-            
-            Object obj = clazz.newInstance();
-            
-            pool.put(name, obj);
+        
+        int max = -1000000;
+        for (int i = 0; i < nums.length; i++) {
+            max = Math.max(max, Math.abs(nums[i]));
         }
         
-        map.get(key);
+        int[] nums2 = new int[max * 2 + 1];
+        
         for (int i = 0; i < nums.length; i++) {
-            count = 0;
-            for (int j = 0; j < map.size(); j++) {
-//                if (nums[i] == ) {
-                    count++;
-//                }
+            if (nums[i] < 0)
+                nums2[max - Math.abs(nums[i])]++;
+            else if (nums[i] == 0)
+                nums2[max]++;
+            if (nums[i] > 0)
+                nums2[nums[i] + max]++;
+        }
+        
+        
+        int index = 0;
+        for (int i = nums2.length - 1; i >= 0; i--) {
+            if (nums2[i] == 0)
+                continue;
+            else {
+                k -= nums2[i];
+                if (k <= 0) {
+                    if (i < nums2.length / 2) {
+                        index = i - max;
+                    } else {
+                        index = i - nums2.length / 2;
+                    }
+                    break;
+                }
             }
         }
+        int result = index;
+
         return result;
     }
     
     public static void main(String[] args) {
         No1 no = new No1();
-        int[] nums = 
-            {-1, 2, 0};
+        int[] nums = {-1, -2, -3, -4, -5};
         
-        int k = 2;
+        int k = 1;
         
         System.out.println(no.kthLargestElement(nums, k));
     }

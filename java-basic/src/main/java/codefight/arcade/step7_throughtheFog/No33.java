@@ -73,12 +73,10 @@ public class No33 {
     public static void main(String[] args) {
         No33 no = new No33();
         
-        String[] inputArray = {"abc", 
-                "bef", 
-                "bcc", 
-                "bec", 
-                "bbc", 
-                "bdc"};
+        String[] inputArray = {"ab", 
+                "ad", 
+                "ef", 
+                "eg"};
         
         System.out.println(no.stringsRearrangement(inputArray));
     }

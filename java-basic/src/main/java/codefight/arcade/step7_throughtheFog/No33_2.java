@@ -30,6 +30,10 @@ public class No33_2 {
         for (ArrayList<String> current: premutations) {
             if(check(current)) ans = true;
         }
+        
+        for (int i = 0; i < arr.size(); i++) {
+//            System.out.println(arr.get(i));
+        }
         return ans;
     }
 
@@ -37,6 +41,7 @@ public class No33_2 {
         for (int i = 1; i < ar.size(); i++) {
             int diffCount = count(ar.get(i-1), ar.get(i));
             if (diffCount != 1) return false;
+//            System.out.println(ar.get(i));
         }
         return true;
     }
@@ -45,12 +50,14 @@ public class No33_2 {
         int count = 0;
         for(int i = 0; i < s1.length(); i++) {
             if (s1.charAt(i) != s2.charAt(i)) count++;
+//            System.out.println(s1.charAt(i));
+//            System.out.println(s2.charAt(i));
         }
         return count;
     }
 
     ArrayList<ArrayList<String>> premutations = new ArrayList<ArrayList<String>>();
-
+                                    
     void premutations (ArrayList<String> current, List<String> notUsed) {
         if (notUsed.size() == 0) {
             premutations.add(new ArrayList<String>(current));
@@ -69,11 +76,13 @@ public class No33_2 {
         No33_2 no = new No33_2();
         
         String[] inputArray = {"abc", 
-                "bef", 
-                "bcc", 
-                "bec", 
-                "bbc", 
-                "bdc"};
+                "xbc", 
+                "xxc", 
+                "xbc", 
+                "aby", 
+                "ayy", 
+                "aby", 
+                "azc"};
         
         System.out.println(no.stringsRearrangement(inputArray));
     }
