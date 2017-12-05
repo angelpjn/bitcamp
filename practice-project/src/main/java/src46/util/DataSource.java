@@ -1,4 +1,4 @@
-package java100.app.util;
+package src46.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -33,12 +33,6 @@ public class DataSource {
             list.add(con);
             
         } catch (Exception e) {}
-    }
-    
-    synchronized public void close() {
-        for (Connection con : list) {
-            try {con.close();} catch (Exception e) {}
-        }
     }
 
     public String getDriverClassName() {
