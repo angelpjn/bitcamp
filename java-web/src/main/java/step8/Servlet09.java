@@ -26,7 +26,6 @@ public class Servlet09 extends HttpServlet {
         String photo1Filename = multi.getFilesystemName("photo1");
         String photo2Filename = multi.getFilesystemName("photo2");
         
-        
         res.setContentType("text/plain;charset=UTF-8");
         PrintWriter out = res.getWriter();
         
@@ -37,3 +36,4 @@ public class Servlet09 extends HttpServlet {
         
     }
 }
+ 
