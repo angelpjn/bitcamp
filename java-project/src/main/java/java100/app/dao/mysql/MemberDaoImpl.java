@@ -131,7 +131,7 @@ public class MemberDaoImpl implements MemberDao {
         try {
             con = ds.getConnection();
             pstmt = con.prepareStatement(
-                    "select no,name,email,regdt from ex_memb where no=?");
+                    "select no,name,email,pwd,regdt from ex_memb where no=?");
             
             pstmt.setInt(1, no);
             
@@ -145,6 +145,7 @@ public class MemberDaoImpl implements MemberDao {
                 member.setName(rs.getString("name"));
                 member.setEmail(rs.getString("email"));
                 member.setCreatedDate(rs.getDate("regdt"));
+                member.setPassword(rs.getString("pwd"));
                 
             } 
             
