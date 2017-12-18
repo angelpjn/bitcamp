@@ -1,13 +1,7 @@
-<%@page import="java100.app.domain.Room"%>
-<%@page import="java100.app.dao.RoomDao"%>
-<%@page import="java.io.PrintWriter"%>
-<%@page import="java100.app.domain.Score"%>
-<%@page import="java.util.List"%>
-<%@page import="java100.app.listener.ContextLoaderListener"%>
-<%@page import="java100.app.dao.ScoreDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +13,7 @@
 <div class='container'>
 <jsp:include page="/header.jsp"></jsp:include>
 <h1>강의실목록</h1>
-<p><a href='form.jsp' class='btn btn-primary btn-sm'>추가</a></p>
+<p><a href='form' class='btn btn-primary btn-sm'>추가</a></p>
 <table class='table table-hover'>
 <thead>
 <tr>
@@ -27,32 +21,24 @@
 </tr>
 </thead>
 <tbody>
-<%
-RoomDao roomDao = ContextLoaderListener.iocContainer.getBean(RoomDao.class);
-try {
-    List<Room> list = roomDao.selectList();
-    for (Room room : list) { %>
+<c:forEach items="${list}" var="room">
     <tr><td>
-    <%=room.getNo()%>
+    ${room.no}
     </td>
     <td>
-    <%=room.getLocation()%>
+    ${room.location}
     </td>
     <td>
-    <%=room.getName()%>
+    ${room.name}
     </td>
     <td>
-    <%=room.getCapacity()%>
+    ${room.capacity}
     </td>
-    <td><a href='delete.jsp?no=<%=room.getNo() %>' class='btn btn-danger btn-sm'>
+    <td><a href='delete?no=${room.no}' class='btn btn-danger btn-sm'>
     삭제</a>
     </td>
     </tr>
-    <% } %>
-    <%} catch (Exception e) {
-        e.printStackTrace(); // for developer
-        out.println(e.getMessage()); // for user
-    } %>
+</c:forEach>
 </tbody>
 </table>
 <jsp:include page="/footer.jsp"></jsp:include>
