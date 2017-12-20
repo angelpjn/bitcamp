@@ -2,7 +2,6 @@ package java100.app.servlet.member;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +19,6 @@ public class MemberDeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         MemberDao memberDao = ContextLoaderListener.iocContainer.getBean(MemberDao.class);
-        response.setContentType("text/html;charset=UTF-8");
     
         Member member = new Member();
         member.setNo(Integer.parseInt(request.getParameter("no")));
@@ -29,13 +27,8 @@ public class MemberDeleteServlet extends HttpServlet {
         member.setPassword(request.getParameter("password"));
         
         int no = Integer.parseInt(request.getParameter("no"));
-        int count = memberDao.delete(no);
-        
-        request.setAttribute("count", count);
-        
-        RequestDispatcher rd = request.getRequestDispatcher("/member/delete.jsp");
-        
-        rd.include(request, response);
+        memberDao.delete(no);
+        request.setAttribute("viewName", "redirect:list.do");
         
     }
 }

@@ -2,7 +2,6 @@ package java100.app.servlet.room;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +19,6 @@ public class RoomAddServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RoomDao roomDao = ContextLoaderListener.iocContainer.getBean(RoomDao.class);
-        response.setContentType("text/html;charset=UTF-8");
     
         Room room = new Room();
         
@@ -28,12 +26,7 @@ public class RoomAddServlet extends HttpServlet {
         room.setName(request.getParameter("name"));
         room.setCapacity(Integer.parseInt(request.getParameter("capacity")));
         
-        int count = roomDao.insert(room);
-        request.setAttribute("count", count);
-        
-        RequestDispatcher rd = request.getRequestDispatcher("/room/add.jsp");
-        
-        rd.include(request, response);
-        
+        roomDao.insert(room);
+        request.setAttribute("viewName", "redirect:list.do");
     }
 }

@@ -3,7 +3,6 @@ package java100.app.servlet.member;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,9 +26,8 @@ public class MemberListServlet extends HttpServlet {
         
         request.setAttribute("list", list);
         
-        RequestDispatcher rd = request.getRequestDispatcher("/member/list.jsp");
+        request.setAttribute("viewName", "/member/list.jsp");
         
-        rd.include(request, response);
         
     }
 }

@@ -3,7 +3,6 @@ package java100.app.servlet.board;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,9 +26,7 @@ public class BoardListServlet extends HttpServlet {
         
         request.setAttribute("list", list);
         
-        RequestDispatcher rd = request.getRequestDispatcher("/board/list.jsp");
-        
-        rd.include(request, response);
+        request.setAttribute("viewName", "/board/list.jsp");
         
     }
 }

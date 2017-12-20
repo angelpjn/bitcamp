@@ -2,7 +2,6 @@ package java100.app.servlet.member;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +19,6 @@ public class MemberUpdateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         MemberDao memberDao = ContextLoaderListener.iocContainer.getBean(MemberDao.class);
-        response.setContentType("text/html;charset=UTF-8");
     
         Member member = new Member();
         member.setNo(Integer.parseInt(request.getParameter("no")));
@@ -28,13 +26,8 @@ public class MemberUpdateServlet extends HttpServlet {
         member.setEmail(request.getParameter("email"));
         member.setPassword(request.getParameter("password"));
         
-        int count = memberDao.update(member);
-        
-        request.setAttribute("count", count);
-        
-        RequestDispatcher rd = request.getRequestDispatcher("/member/update.jsp");
-        
-        rd.include(request, response);
+        memberDao.update(member);
+        request.setAttribute("viewName", "redirect:list.do");
         
     }
 }

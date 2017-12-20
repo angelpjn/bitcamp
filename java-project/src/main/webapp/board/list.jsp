@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +14,7 @@
 <div class='container'>
 <jsp:include page="/header.jsp"></jsp:include>
 <h1>게시물 목록</h1>
-<p><a href='form' class='btn btn-primary btn-sm'>추가</a></p>
+<p><a href='form.do' class='btn btn-primary btn-sm'>추가</a></p>
 <table class='table table-hover'>
 <thead>
 <tr>
@@ -25,7 +26,7 @@
     <tr><td>
     ${board.no}
     </td>
-    <td><a href='view?no=${board.no}'>
+    <td><a href='view.do?no=${board.no}'>
     ${board.title}
     </a></td>
     <td>

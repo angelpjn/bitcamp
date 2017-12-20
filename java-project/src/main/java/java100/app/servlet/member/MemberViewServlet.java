@@ -2,7 +2,6 @@ package java100.app.servlet.member;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,16 +19,13 @@ public class MemberViewServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         MemberDao memberDao = ContextLoaderListener.iocContainer.getBean(MemberDao.class);
-        response.setContentType("text/html;charset=UTF-8");
     
         int no = Integer.parseInt(request.getParameter("no"));
         Member member = memberDao.selectOne(no);
         
         request.setAttribute("member", member);
         
-        RequestDispatcher rd = request.getRequestDispatcher("/member/view.jsp");
-        
-        rd.include(request, response);
+        request.setAttribute("viewName", "/member/view.jsp");
         
     }
 }

@@ -1,9 +1,7 @@
 package java100.app.servlet.board;
 
 import java.io.IOException;
-import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +19,6 @@ public class BoardUpdateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         BoardDao boardDao = ContextLoaderListener.iocContainer.getBean(BoardDao.class);
-        response.setContentType("text/html;charset=UTF-8");
     
         Board board = new Board();
         board.setNo(Integer.parseInt(request.getParameter("no")));
@@ -29,13 +26,8 @@ public class BoardUpdateServlet extends HttpServlet {
         board.setContent(request.getParameter("content"));
         
         int no = Integer.parseInt(request.getParameter("no"));
-        int count = boardDao.update(board);
+        boardDao.update(board);
         
-        request.setAttribute("count", count);
-        
-        RequestDispatcher rd = request.getRequestDispatcher("/board/update.jsp");
-        
-        rd.include(request, response);
-        
+        request.setAttribute("viewName", "redirect:list.do");
     }
 }

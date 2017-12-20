@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +14,7 @@
 <div class='container'>
 <jsp:include page="/header.jsp"></jsp:include>
 <h1>게시물 상세 정보</h1>
-<form action='update' method='post'>
+<form action='update.do' method='post'>
 <c:if test="${not empty board}">
 <div class='form-group row'>
 <label for='no' class='col-sm-2 col-form-label col-form-label-sm'>번호</label>
@@ -52,7 +53,7 @@
 </div>
 
 <button class='btn btn-primary btn-sm'>변경</button>
-<a href='delete?no=${board.no}' class='btn btn-danger btn-sm'>삭제</a>
+<a href='delete.do?no=${board.no}' class='btn btn-danger btn-sm'>삭제</a>
 </form>
 </c:if>
 <c:if test="${empty board}">

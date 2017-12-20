@@ -2,7 +2,6 @@ package java100.app.servlet.room;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,16 +18,10 @@ public class RoomDeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RoomDao roomDao = ContextLoaderListener.iocContainer.getBean(RoomDao.class);
-        response.setContentType("text/html;charset=UTF-8");
     
         int no = Integer.parseInt(request.getParameter("no"));
         
-        int count = roomDao.delete(no);
-        request.setAttribute("count", count);
-        
-        RequestDispatcher rd = request.getRequestDispatcher("/room/delete.jsp");
-        
-        rd.include(request, response);
-        
+        roomDao.delete(no);
+        request.setAttribute("viewName", "redirect:list.do");
     }
 }

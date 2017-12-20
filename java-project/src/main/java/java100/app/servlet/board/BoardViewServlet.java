@@ -1,9 +1,7 @@
 package java100.app.servlet.board;
 
 import java.io.IOException;
-import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,9 +26,7 @@ public class BoardViewServlet extends HttpServlet {
         
         request.setAttribute("board", board);
         
-        RequestDispatcher rd = request.getRequestDispatcher("/board/view.jsp");
-        
-        rd.include(request, response);
+        request.setAttribute("viewName", "/board/view.jsp");
         
     }
 }
