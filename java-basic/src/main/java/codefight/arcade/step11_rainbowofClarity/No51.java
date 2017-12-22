@@ -6,31 +6,39 @@ separated by hyphens
 */
 package codefight.arcade.step11_rainbowofClarity;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class No51 {
 
-    String longestWord(String text) {
-        String[] arr = text.split(", ");
+    int deleteDigit(int n) {
+        String no = new StringBuffer(Integer.toString(n)).toString();
         
-        ArrayList<Integer> countList = new ArrayList<>();
+        String[] nums = new String[no.length()];
+        String temp = "";
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0)
+                temp = no.substring(0, i);
+            nums[i] = temp + no.substring(i + 1);
+            temp = "";
+        }
         
-        System.out.println(Arrays.toString(arr));
-        return "ss";
+        int max = -1;
+        
+        for (int i = 0; i < nums.length; i++) {
+            max = Math.max(max, Integer.parseInt(nums[i]));
+        }
+            
+        return max;
     }
 
 
     public static void main(String[] args) {
         No51 no = new No51();
 
-        String text = "Ready, steady, go!";
+        int n = 1110110;
 
-        System.out.println(no.longestWord(text));
+        System.out.println(no.deleteDigit(n));
     }
 
 }
-
 
 
 
