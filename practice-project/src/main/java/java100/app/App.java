@@ -2,25 +2,28 @@
 
 package java100.app;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Scanner;
 
 import java100.app.control.BoardController;
-import java100.app.control.GenericController;
+import java100.app.control.Controller;
 import java100.app.control.MemberController;
+import java100.app.control.RoomController;
 import java100.app.control.ScoreController;
 
 public class App {
 
     static Scanner keyScan = new Scanner(System.in);
     
-    static HashMap<String, GenericController<?>> controllerMap = new HashMap<>();
+    static HashMap<String,Controller> controllerMap = new HashMap<>();
     
     public static void main(String[] args) {
         
-        controllerMap.put("1", new ScoreController());
-        controllerMap.put("2", new MemberController());
-        controllerMap.put("3", new BoardController());
+        controllerMap.put("1", new ScoreController("./data/score.csv"));
+        controllerMap.put("2", new MemberController("./data/member.csv"));
+        controllerMap.put("3", new BoardController("./data/board.csv"));
+        controllerMap.put("4", new RoomController("./data/room.csv"));
         
         loop: while (true) {
             System.out.print("명령> ");
@@ -44,7 +47,7 @@ public class App {
     
     private static void doGo(String menuNo) {
         
-        GenericController<?> controller = controllerMap.get(menuNo);
+        Controller controller = controllerMap.get(menuNo);
         if (controller == null) {
             System.out.println("해당 번호의 메뉴가 없습니다.");
             return;
@@ -72,6 +75,10 @@ public class App {
     }
 
     private static void doQuit() {
+        Collection<Controller> controls = controllerMap.values();
+        for (Controller control : controls) {
+            control.destroy();
+        }
         System.out.println("프로그램을 종료합니다.");
     }
 

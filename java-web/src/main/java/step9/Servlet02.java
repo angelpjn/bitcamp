@@ -1,3 +1,5 @@
+// 다른 서블릿에게 요청을 떠넘기기 - forwarding  
+//
 package step9;
 
 import java.io.IOException;
@@ -16,7 +18,11 @@ public class Servlet02 extends HttpServlet {
     
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        
         req.setCharacterEncoding("UTF-8");
+        
+        // forwarding은 다른 서블릿으로 요청을 분기시킬 때 사용한다.
+        // including과 달리 다른 서블릿으로 실행이 넘어가면 되돌아 오지 않는다.
         
         String op = req.getParameter("op");
         switch (op) {
@@ -35,3 +41,25 @@ public class Servlet02 extends HttpServlet {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

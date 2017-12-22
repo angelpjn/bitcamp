@@ -1,11 +1,64 @@
 package java100.app.control;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.Iterator;
+import java.util.Scanner;
 
 import java100.app.domain.Board;
 import java100.app.util.Prompts;
 
 public class BoardController extends GenericController<Board> {
+
+    private String dataFilePath;
+    
+    public BoardController(String dataFilePath) {
+        this.dataFilePath = dataFilePath;
+        this.init();
+    }
+    
+    @Override
+    public void destroy() {
+        try (PrintWriter out = 
+                new PrintWriter(
+                        new BufferedWriter(
+                                new FileWriter(this.dataFilePath))); ) {
+            for (Board board : this.list) {
+                out.write(board.toCSVString() + "\n");
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void init() {
+        try (
+                BufferedReader in = 
+                new BufferedReader(
+                        new FileReader(this.dataFilePath));
+
+                Scanner lineScan = new Scanner(in); ) {
+
+            String csv = null;
+            while (lineScan.hasNextLine()) {
+                csv = lineScan.nextLine();
+                try {
+                    list.add(new Board(csv));
+                } catch (CSVFormatException e) {
+                    System.out.println("CSV 데이터 형식 오류!");
+                    e.printStackTrace();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void execute() {

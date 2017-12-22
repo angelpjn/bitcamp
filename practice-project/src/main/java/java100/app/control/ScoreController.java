@@ -1,13 +1,67 @@
 package java100.app.control;
 
-
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Iterator;
+import java.util.Scanner;
 
 import java100.app.domain.Score;
 import java100.app.util.Prompts;
 
 public class ScoreController extends GenericController<Score> {
+
+    private String dataFilePath;
     
+    public ScoreController(String dataFilePath) {
+        this.dataFilePath = dataFilePath;
+        this.init();
+    }
+    
+    @Override
+    public void destroy() {
+        
+        try (PrintWriter out = 
+                new PrintWriter(
+                        new BufferedWriter(
+                                new FileWriter(this.dataFilePath))); ) {
+            for (Score score : this.list) {
+                out.write(score.toCSVString() + "\n");
+            } 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @Override
+    public void init() {
+        try (
+                BufferedReader in = 
+                new BufferedReader(
+                        new FileReader(this.dataFilePath));
+
+            Scanner lineScan = new Scanner(in); ) {
+            
+            String csv = null;
+            while (lineScan.hasNext()) {
+                csv = lineScan.nextLine();
+                try {
+                    list.add(new Score(csv));
+                } catch (CSVFormatException e) {
+                    System.out.println("CSV 데이터 형식 오류!");
+                    e.printStackTrace();
+                }
+            }
+        
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+                
+    }
+
     @Override
     public void execute() {
         loop:
