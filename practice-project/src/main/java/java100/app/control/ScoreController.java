@@ -1,193 +1,145 @@
 package java100.app.control;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Iterator;
-import java.util.Scanner;
+import java.util.List;
 
+import java100.app.dao.ScoreDao;
 import java100.app.domain.Score;
-import java100.app.util.Prompts;
 
 public class ScoreController extends GenericController<Score> {
 
-    private String dataFilePath;
-    
-    public ScoreController(String dataFilePath) {
-        this.dataFilePath = dataFilePath;
-        this.init();
-    }
+    ScoreDao scoreDao = new ScoreDao();
     
     @Override
-    public void destroy() {
+    public void destroy() {}
+
+    @Override
+    public void init() {}
+
+    @Override
+    public void execute(Request request, Response response) {
         
-        try (PrintWriter out = 
-                new PrintWriter(
-                        new BufferedWriter(
-                                new FileWriter(this.dataFilePath))); ) {
-            for (Score score : this.list) {
-                out.write(score.toCSVString() + "\n");
-            } 
-        } catch (IOException e) {
-            e.printStackTrace();
+        switch (request.getMenuPath()) {
+        case "/score/add": this.doAdd(request, response); break;
+        case "/score/list": this.doList(request, response); break;
+        case "/score/view": this.doView(request, response); break;
+        case "/score/update": this.doUpdate(request, response); break;
+        case "/score/delete": this.doDelete(request, response); break;
+        default:
+            response.getWriter().println("해당 명령이 없습니다.");
         }
     }
-    
-    @Override
-    public void init() {
-        try (
-                BufferedReader in = 
-                new BufferedReader(
-                        new FileReader(this.dataFilePath));
 
-            Scanner lineScan = new Scanner(in); ) {
+    private void doDelete(Request request, Response response) {
+        
+        PrintWriter out = response.getWriter();
+        out.println("[성적 삭제]");
+
+        try {
+            int no = Integer.parseInt(request.getParameter("no"));
             
-            String csv = null;
-            while (lineScan.hasNext()) {
-                csv = lineScan.nextLine();
-                try {
-                    list.add(new Score(csv));
-                } catch (CSVFormatException e) {
-                    System.out.println("CSV 데이터 형식 오류!");
-                    e.printStackTrace();
+            if (scoreDao.delete(no) > 0) {
+                out.println("삭제했습니다.");
+            } else {
+                out.printf("'%s'의 성적 정보가 없습니다.\n",no);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println(e.getMessage());
+        }
+    }
+
+    private void doUpdate(Request request, Response response) {
+        
+        PrintWriter out = response.getWriter();
+        out.println("[성적 변경]");
+
+        try {
+            Score score = new Score();
+            score.setNo(Integer.parseInt(request.getParameter("no")));
+            score.setName(request.getParameter("no"));
+            score.setKor(Integer.parseInt(request.getParameter("kor")));
+            score.setEng(Integer.parseInt(request.getParameter("eng")));
+            score.setMath(Integer.parseInt(request.getParameter("math")));
+
+            if (scoreDao.update(score) > 0) {
+                out.println("변경했습니다.");
+            } else {
+                out.printf("'%d'의 성적 정보가 없습니다.\n", score.getNo());
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println(e.getMessage());
+        }
+    }
+
+    private void doView(Request request, Response response) {
+        PrintWriter out = response.getWriter();
+        out.println("[성적 상세 정보]");
+        
+        try {
+            int no = Integer.parseInt(request.getParameter("no"));
+            Score score = scoreDao.selectOne(no);
+            
+            if (score != null) {
+                out.printf("번호: %d\n", score.getNo());
+                out.printf("이름: %s\n", score.getName());
+                out.printf("국어: %d\n", score.getKor());
+                out.printf("영어: %d\n", score.getEng());
+                out.printf("수학: %d\n", score.getMath());
+                out.printf("합계: %d\n", score.getSum());
+                out.printf("평균: %.1f\n", score.getAver());
+            } else {
+                out.printf("'%d'의 성적 정보가 없습니다.\n", no);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println(e.getMessage());
+        }
+    }
+
+    private void doList(Request request, Response response) {
+        PrintWriter out = response.getWriter();
+        out.println("[성적 목록]");
+        
+        try {
+            List<Score> list = scoreDao.selectList();
+            
+            for (Score score : list) {
+                out.printf("%4d, %-4s, %4d, %6.1f\n",
+                        score.getNo(),
+                        score.getName(),
+                        score.getSum(),
+                        score.getAver());
                 }
-            }
-        
-        } catch (IOException e) {
+                
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-                
-    }
-
-    @Override
-    public void execute() {
-        loop:
-        while (true) {
-            System.out.print("성적관리> ");
-            String input = keyScan.nextLine();
-
-            switch (input){
-            case "add": this.doAdd(); break;
-            case "list": this.doList(); break;
-            case "view": this.doView(); break;
-            case "update": this.doUpdate(); break;
-            case "delete": this.doDelete(); break;
-            case "main": break loop;
-            default: System.out.println("해당 명령이 없습니다.");;
-            }
-         }        
-    }
-    
-    // 대신 목록 객체에 값을 저장하고 꺼내는 메서드는 완전 공개한다.
-    private void doDelete() {
-        System.out.println("[성적 삭제]");
-        String name = Prompts.input("이름? ");
-        
-        Score score = findByName(name);
-        if (score == null) {
-            System.out.printf("'%s'의 성적 정보가 없습니다.\n", name);
-        } else {
-            if (Prompts.confirm2("정말 삭제하시겠습니까?(y/N) ")) {
-                list.remove(score);
-                System.out.println("삭제하였습니다.");
-            } else {
-                System.out.println("삭제를 취소하였습니다.");
-            }
+            out.println(e.getMessage());
         }
     }
 
-    private void doUpdate() {
-        System.out.println("[성적 변경]");
-        String name = Prompts.input("이름? ");
+    private void doAdd(Request request, Response response) {
+        PrintWriter out = response.getWriter();
         
-        Score score = findByName(name);
-        
-        if (score == null) {
-            System.out.printf("'%s'의 성적 정보가 없습니다.\n", name);
-        } else {
-            int kor = score.getKor();
-            try {
-                kor = Prompts.inputInt("국어?(%d) ", score.getKor());
-            } catch(Exception e) {}
+        out.println("[성적 등록]");
+
+        try {
+            Score score = new Score();
+            score.setName(request.getParameter("name"));
+            score.setKor(Integer.parseInt(request.getParameter("kor")));
+            score.setEng(Integer.parseInt(request.getParameter("eng")));
+            score.setMath(Integer.parseInt(request.getParameter("math")));
             
-            int eng = score.getEng();
-            try {
-                eng = Prompts.inputInt("영어?(%d) ", score.getEng());
-            } catch(Exception e) {}
+            scoreDao.insert(score);
+            out.println("저장하였습니다.");
             
-            int math = score.getMath();
-            try {
-                math = Prompts.inputInt("수학?(%d) ", score.getMath());
-            } catch(Exception e) {}
-            
-            if (Prompts.confirm2("변경하시겠습니까?(y/N) ")) {
-                score.setKor(kor);
-                score.setEng(eng);
-                score.setMath(math);
-                System.out.println("변경하였습니다.");
-                
-            } else {
-                System.out.println("변경을 취소하였습니다.");
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println(e.getMessage());
         }
-    }
-
-    private void doView() {
-        System.out.println("[성적 상세 정보]");
-        String name = Prompts.input("이름? ");
-        
-        Score score = findByName(name);
-        
-        if (score == null) {
-            System.out.printf("'%s'의 성적 정보가 없습니다.\n", name);
-        } else {
-            System.out.printf("%-4s, %4d, %4d, %4d, %4d, %6.1f\n",  
-                    score.getName(),
-                    score.getKor(),
-                    score.getEng(),
-                    score.getMath(),
-                    score.getSum(),
-                    score.getAver());
-        }
-    }
-
-    private void doList() {
-        System.out.println("[성적 목록]");
-        
-        Iterator<Score> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            Score score = iterator.next();
-            System.out.printf("%-4s, %4d, %6.1f\n",  
-                    score.getName(), 
-                    score.getSum(), 
-                    score.getAver());
-        }
-    }
-
-    private void doAdd() {
-        System.out.println("[성적 등록]");
-
-        Score score = new Score(); // 성적 데이터를 저장할 빈 객체를 준비한다.
-        score.setName(Prompts.inputString("이름? "));
-        score.setKor(Prompts.inputInt("국어점수? "));
-        score.setEng(Prompts.inputInt("영어점수? "));
-        score.setMath(Prompts.inputInt("수학점수? "));
-        list.add(score);
-            
-        
-    }
-
-    private Score findByName(String name) {
-        Iterator<Score> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            Score score = iterator.next();
-            if (score.getName().equals(name)) {
-                return score;
-            }
-        }
-        return null;
     }
 }

@@ -12,7 +12,7 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <context:component-scan base-package="java100.app.web.v03"/>
+    <context:component-scan base-package="java100.app.web.v02"/>
     
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="WebBindingInitializer">
@@ -35,11 +35,4 @@
     <bean id="multipartResolver"
         class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
     </bean>
-    
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-        <property name="prefix" value="/"/>
-        <property name="suffix" value=".jsp"/>
-    </bean>
-    
 </beans>
