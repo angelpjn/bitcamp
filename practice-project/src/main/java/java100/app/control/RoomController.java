@@ -1,31 +1,28 @@
 package java100.app.control;
 
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+import java100.app.annotation.Component;
+import java100.app.dao.RoomDao;
 import java100.app.domain.Room;
 
-public class RoomController extends ArrayList<Room> implements Controller {
+@Component("/room")
+public class RoomController implements Controller {
     Scanner keyScan = new Scanner(System.in);
+    
+    RoomDao roomDao;
+
+    public void setRoomDao(RoomDao roomDao) {
+        this.roomDao = roomDao;
+    }
 
     @Override
     public void destroy() {}
 
     @Override
-    public void init() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException ex) {
-            throw new RuntimeException(
-                    "JDBC 드라이버 클래스를 찾을 수 없습니다.");
-        }
-    }
-
+    public void init() {}
     
     @Override
     public void execute(Request request, Response response) {
@@ -42,19 +39,15 @@ public class RoomController extends ArrayList<Room> implements Controller {
     private void doList(Request request, Response response) {
         PrintWriter out = response.getWriter();
         out.println("[강의실 목록]");
-        try (Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
-                PreparedStatement pstmt = con.prepareStatement(
-                        "select no,loc,name,capacity from ex_room");
-                ) {
-            ResultSet rs = pstmt.executeQuery();
+        try {
+            List<Room> list = roomDao.selectList();
             
-            while (rs.next()) {
+            for (Room room : list) {
                 out.printf("%d, %s, %s, %d\n",
-                        rs.getInt("no"),
-                        rs.getString("loc"),
-                        rs.getString("name"),
-                        rs.getInt("capacity"));
+                        room.getNo(),
+                        room.getLocation(),
+                        room.getName(),
+                        room.getCapacity());
             }
             
         } catch (Exception e) {
@@ -67,21 +60,14 @@ public class RoomController extends ArrayList<Room> implements Controller {
         PrintWriter out = response.getWriter();
         out.println("[강의실 등록]");
 
-        try (Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
-                PreparedStatement pstmt = con.prepareStatement(
-                        "insert into ex_room(loc,name,capacity) values(?,?,?)");
-                ) {
+        try {
+            Room room = new Room();
+            room.setLocation(request.getParameter("loc"));
+            room.setName(request.getParameter("name"));
+            room.setCapacity(Integer.parseInt(request.getParameter("capacity")));
             
-            pstmt.setString(1, request.getParameter("loc"));
-            pstmt.setString(2, request.getParameter("name"));
-            pstmt.setInt(3, Integer.parseInt(request.getParameter("capacity")));
-            
-            if (pstmt.executeUpdate() > 0) {
-                out.println("저장하였습니다.");
-            } else {
-                out.println("이미 등록된 강의실입니다..");
-            }
+            roomDao.insert(room);
+            out.println("저장하였습니다.");
         } catch (Exception e) {
             e.printStackTrace();
             out.println(e.getMessage());
@@ -91,17 +77,11 @@ public class RoomController extends ArrayList<Room> implements Controller {
     private void doDelete(Request request, Response response) {
         PrintWriter out = response.getWriter();
         out.println("[강의실 삭제]");
-        try (Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
-                PreparedStatement pstmt = con.prepareStatement(
-                        "delete from ex_room where no=?");
-                ) {
+        try {
+            int no = Integer.parseInt(request.getParameter("no"));
             
-            pstmt.setInt(1, Integer.parseInt(request.getParameter("no")));
-            
-            if (pstmt.executeUpdate() > 0) {
+            if (roomDao.delete(no) > 0) {
                 out.println("삭제하였습니다.");
-                
             } else {
                 out.printf("'%s'의 강의실 정보가 없습니다.\n", request.getParameter("no"));
             }

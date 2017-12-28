@@ -7,44 +7,32 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Scanner;
 
-import java100.app.control.BoardController;
+import java100.app.beans.ApplicationContext;
 import java100.app.control.Controller;
-import java100.app.control.MemberController;
 import java100.app.control.Request;
 import java100.app.control.Response;
-import java100.app.control.RoomController;
-import java100.app.control.ScoreController;
+import java100.app.util.DataSource;
 
 public class App {
 
     ServerSocket ss;
-    Scanner keyScan = new Scanner(System.in);
-
-    HashMap<String,Controller> controllerMap = 
-            new HashMap<>();
+    
+    ApplicationContext beanContainer;
 
     void init() {
         
-        ScoreController scoreController = new ScoreController();
-        scoreController.init();
-        controllerMap.put("/score", scoreController);
+        beanContainer = new ApplicationContext("./bin");
         
-        MemberController memberController = new MemberController();
-        memberController.init();
-        controllerMap.put("/member", memberController);
+        DataSource ds = new DataSource();
+        ds.setDriverClassName("com.mysql.jdbc.Driver");
+        ds.setUrl("jdbc:mysal://localhost:3306/studydb");
+        ds.setUsername("study");
+        ds.setPassword("1111");
         
-        BoardController boardController = new BoardController();
-        boardController.init();
-        controllerMap.put("/board", boardController);
+        beanContainer.addBean("mysqlDataSource", ds);
         
-        RoomController roomController = new RoomController();
-        roomController.init();
-        controllerMap.put("/room", roomController); 
-
+        beanContainer.refreshBeanFactory();
     }
 
     void service() throws Exception {
@@ -53,13 +41,6 @@ public class App {
 
         while (true) {
             new HttpAgent(ss.accept()).start();
-        }
-    }
-
-    private void save() {
-        Collection<Controller> controllers = controllerMap.values();
-        for (Controller controller : controllers) {
-            controller.destroy();
         }
     }
 
@@ -72,9 +53,9 @@ public class App {
             menuName = command.substring(0, i);
         }
 
-        Controller controller = controllerMap.get(menuName);
+        Object controller = beanContainer.getBean(menuName);
 
-        if (controller == null) {
+        if (controller == null && controller instanceof Controller) {
             out.println("해당 명령을 지원하지 않습니다.");
             return;
         }
@@ -84,7 +65,7 @@ public class App {
         Response response = new Response();
         response.setWriter(out);
         
-        controller.execute(request, response);
+        ((Controller)controller).execute(request, response);
     }
 
     private void hello(String command, PrintWriter out) {
@@ -157,8 +138,6 @@ public class App {
                     hello(command, out);
                 } else {
                     request(command, out);
-
-                    save();
                 }
                 out.println();
                 out.flush();
