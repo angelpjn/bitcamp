@@ -1,6 +1,9 @@
 package java100.app.control;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,22 +19,27 @@ import java100.app.domain.Score;
 @Controller
 public class ScoreController {
     
-    public ScoreController() {
-        System.out.println("ScoreController 생성되었음!");
-    }
-    
     @Autowired ScoreDao scoreDao;
     
     @RequestMapping("/score/list")
     public String list(
             HttpServletRequest request, HttpServletResponse response)
                     throws Exception {
-    
-        List<Score> list = scoreDao.selectList();
+        
+        Map<String,Object> data = new HashMap<>();
+        data.put("orderColumn", "regdt");
+        data.put("align", "asc");
+        
+        List<String> list = new ArrayList<>();
+        list.add("aa");
+        list.add("1");
+        list.add("5");
+//        data.put("words", list);
+        List<Score> records = scoreDao.findAll(data);
         
         request.setAttribute("list", list);
 
-        return "/score/list.jsp";
+        return "score/list";
     }
     
     @RequestMapping("/score/add")
@@ -59,7 +67,7 @@ public class ScoreController {
     
     @RequestMapping("/score/form")    
     public String form(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return "/score/form.jsp";
+        return "score/form";
         
     }
     
@@ -79,10 +87,10 @@ public class ScoreController {
             @RequestParam("no") int no,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
     
-        Score score = scoreDao.selectOne(no);
+        Score score = scoreDao.findByNo(no);
         
         request.setAttribute("score", score);
         
-        return "/score/view.jsp";
+        return "score/view";
     }
 }

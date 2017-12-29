@@ -10,7 +10,8 @@ public interface BoardDao {
     int insert(Board board);
     int update(Board board);
     int delete(int no);
-    Board selectOne(int no);        
+    int viewUpdate(int no);
+    Board findByNo(int no);        
 }
 
 
