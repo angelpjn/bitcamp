@@ -23,11 +23,11 @@ public class RoomController {
     public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
         response.setContentType("text/html;charset=UTF-8");
     
-        List<Room> list = roomDao.selectList();
+        List<Room> list = roomDao.findAll();
         
         request.setAttribute("list", list);
         
-        return "/room/list.jsp";
+        return "room/list";
 
     }
     
@@ -55,7 +55,7 @@ public class RoomController {
 
     @RequestMapping("/room/form")
     public String form(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return "/room/form.jsp";
+        return "room/form";
     }
 }
 

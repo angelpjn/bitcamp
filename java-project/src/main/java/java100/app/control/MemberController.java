@@ -23,10 +23,10 @@ public class MemberController {
     public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
         response.setContentType("text/html;charset=UTF-8");
     
-        List<Member> list = memberDao.selectList();
+        List<Member> list = memberDao.findAll();
         
         request.setAttribute("list", list);
-        return "/member/list.jsp";
+        return "member/list";
         
     }
     
@@ -55,7 +55,7 @@ public class MemberController {
     
     @RequestMapping("/member/form")
     public String form(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return "/member/form.jsp";
+        return "member/form";
     }
     
     @RequestMapping("/member/update")
@@ -73,11 +73,11 @@ public class MemberController {
             @RequestParam("no") int no,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         response.setContentType("text/html;charset=UTF-8");
-        Member member = memberDao.selectOne(no);
+        Member member = memberDao.findByNo(no);
         
         request.setAttribute("member", member);
         
-        return "/member/view.jsp";
+        return "member/view";
         
     }
 }

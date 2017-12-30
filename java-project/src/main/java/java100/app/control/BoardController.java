@@ -1,9 +1,6 @@
 package java100.app.control;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,18 +21,8 @@ public class BoardController {
     @RequestMapping("/board/list")
     public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Map<String,Object> data = new HashMap<>();
-        data.put("orderColumn", "regdt");
-        data.put("align", "asc");
-        
-        List<String> list = new ArrayList<>();
-        list.add("aa");
-        list.add("1");
-        list.add("5");
-//        data.put("words", list);
-        
-        List<Board> records = boardDao.findAll(data);
-        request.setAttribute("records", records);
+        List<Board> list = boardDao.findAll();
+        request.setAttribute("list", list);
         
         return "board/list";
 

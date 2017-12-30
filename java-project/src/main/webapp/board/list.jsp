@@ -21,7 +21,7 @@
 </tr>
 </thead>
 <tbody>
-<c:forEach items="${records}" var="board">
+<c:forEach items="${list}" var="board">
     <tr><td>
     ${board.no}
     </td>

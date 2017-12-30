@@ -1,9 +1,6 @@
 package java100.app.control;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,19 +23,10 @@ public class ScoreController {
             HttpServletRequest request, HttpServletResponse response)
                     throws Exception {
         
-        Map<String,Object> data = new HashMap<>();
-        data.put("orderColumn", "regdt");
-        data.put("align", "asc");
-        
-        List<String> list = new ArrayList<>();
-        list.add("aa");
-        list.add("1");
-        list.add("5");
-//        data.put("words", list);
-        List<Score> records = scoreDao.findAll(data);
+        List<Score> list = scoreDao.findAll();
         
         request.setAttribute("list", list);
-
+        
         return "score/list";
     }
     
