@@ -9,109 +9,18 @@
 
     <resultMap type="book" id="bookMap">
         <id column="no" property="no"/>
-        <result column="psr" property="publisher"/>
-        <result column="psdate" property="publishDate"/>
-        <result column="des" property="description"/>
-            
-    <collection property="files"  ofType="uploadFile">
-        <id     column="p_no"       property="no"/>
-        <result column="picname"   property="picturename"/>
-    </collection>
-    
+        <result column="titl" property="title"/>
+        <result column="dcrt" property="description"/>
+        <result column="pric" property="price"/>
+        <result column="pres" property="press"/>
+        <result column="phot" property="photo"/>
+        <result column="pubdt" property="publishedDate"/>
     </resultMap>
 
-    <select id="findAll" resultMap="bookMap" parameterType="map">
-    
-        select 
-            no,
-            title,
-            psr,
-            price
-        from ex_book
-
-<!-- 
-        select 
-            b.no,
-            b.title,
-            b.psr,
-            b.price,
-            p.picname
-        from 
-            ex_book as b 
-            left join ex_picturelist as p on b.no=p.bno
- -->
-        <if test="words != null">
-	        <where>
-	            <foreach collection="words" item="word">
-	                or title like '%${word}%'
-	            </foreach>
-	        </where>
-        </if>
-        
-        <!-- 정렬 조건에 따라 SQL문을 변경한다.-->
-        order by 
-        <choose>
-            <when test="orderColumn == 'title' and align == 'desc'">
-                title desc
-            </when>
-            <when test="orderColumn == 'title' and align == 'asc'">
-                title asc
-            </when>
-            <when test="orderColumn == 'psr' and align == 'desc'">
-                psr desc
-            </when>
-            <when test="orderColumn == 'psr' and align == 'asc'">
-                psr asc
-            </when>
-            <when test="orderColumn == 'price' and align == 'desc'">
-                price desc
-            </when>
-            <when test="orderColumn == 'price' and align == 'asc'">
-                price asc
-            </when>
-            <otherwise>
-                no desc
-            </otherwise>
-        </choose>
-        
-        limit #{startIndex}, #{size}
-    </select>
-    
-    <select id="findByNo" resultMap="bookMap" parameterType="int">
-        select 
-            b.no,
-            b.title,
-            b.psr,
-            b.price,
-            p.no as p_no,
-            p.picname
-        from ex_book as b join ex_picturelist as p on b.no=p.bno
-    </select>
-    
-    <select id="countAll" resultType="int">
-        select count(*) from ex_book
-    </select>
-    
     <insert id="insert" parameterType="book">
-        insert into ex_book(title,psr,psdate,price,des)
-        values(#{title},#{publisher},now(),#{price},#{description})
+        insert into ex_book(titl,dcrt,pric,pres,phot,pubdt)
+        values(#{title},#{description},#{price},#{press},#{photo},now())
     </insert>
-
-
-    <update id="update" parameterType="book">
-        update ex_book set 
-            title=#{title}, 
-            psr=#{publisher}, 
-            price=#{price}, 
-            des=#{description}
-        where no=#{no}
-    </update>
-
-    <delete id="delete" parameterType="int">
-        delete from ex_book
-        where no=#{no}
-    </delete>
-    
     
 </mapper>  
 
