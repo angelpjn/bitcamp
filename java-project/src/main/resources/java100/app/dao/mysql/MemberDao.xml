@@ -68,18 +68,14 @@
             </otherwise>
         </choose>
         
-        limit #{startIndex}, ${size}
+        <!-- 페이지징 처리 -->
+        limit #{startIndex}, #{size}
     </select>
     
     <select id="findByNo" resultMap="memberMap" parameterType="int">
         <include refid="select1"/>
-        ,pwd
         from ex_memb
         where no=#{value}
-    </select>
-    
-    <select id="countAll" resultType="int">
-        select count(*) from ex_memb
     </select>
     
     <select id="findByEmailAndPassword" 
@@ -89,11 +85,15 @@
         where email=#{email} and pwd=password(#{password})
     </select>
     
+    <select id="countAll" resultType="int">
+        select count(*) from ex_memb
+    </select>
+    
     <insert id="insert" parameterType="member">
         insert into ex_memb(name,email,pwd,regdt)
         values(#{name},#{email},password(#{password}),now())
     </insert>
-    
+
     <update id="update" parameterType="member">
         update ex_memb set 
             name=#{name},

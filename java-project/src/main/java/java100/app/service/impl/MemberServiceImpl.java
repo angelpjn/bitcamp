@@ -18,12 +18,13 @@ public class MemberServiceImpl implements MemberService {
     
     @Override
     public List<Member> list(int pageNo, int pageSize, Map<String, Object> options) {
+        
         HashMap<String,Object> params = new HashMap<>();
         params.put("startIndex", (pageNo - 1) * pageSize);
         params.put("size", pageSize);
         
         if (options != null) {
-            options.putAll(options);
+            params.putAll(options);
         }
         
         return memberDao.findAll(params);
@@ -33,27 +34,35 @@ public class MemberServiceImpl implements MemberService {
     public Member get(int no) {
         return memberDao.findByNo(no);
     }
-
+    
     @Override
-    public int add(Member member) {
-        return memberDao.insert(member);
+    public Member get(String email, String password) {
         
+        HashMap<String,Object> params = new HashMap<>();
+        params.put("email", email);
+        params.put("password", password);
+        
+        return memberDao.findByEmailAndPassword(params);
+    }
+    
+    @Override
+    public int getTotalCount() {
+        return memberDao.countAll();
     }
 
     @Override
-    public int update(Member member) {
-        return memberDao.update(member);
-        
+    public int add(Member score) {
+        return memberDao.insert(score);
+    }
+
+    @Override
+    public int update(Member score) {
+        return memberDao.update(score);
     }
 
     @Override
     public int delete(int no) {
         return memberDao.delete(no);
-    }
-
-    @Override
-    public int getTotalCount() {
-        return memberDao.countAll();
     }
 
 }

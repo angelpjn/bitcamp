@@ -9,17 +9,22 @@
 
     <resultMap type="board" id="boardMap">
         <id column="no" property="no"/>
-        <!-- 컬럼 이름과 프로퍼티 이름이 같아서 생략! -->
         <result column="title" property="title"/>
         <result column="conts" property="content"/>
         <result column="regdt" property="regDate"/>
         <result column="vwcnt" property="viewCount"/>
         
+        <!-- 게시글 작성자 정보를 담을 수 있도록 설정한다. -->
         <association property="writer" javaType="member">
-            <id column="m_no" property="no"/>
-            <result column="m_name" property="name"/>
+            <id     column="m_no"       property="no"/>
+            <result column="m_name"     property="name"/>
         </association>
         
+        <!-- 첨부파일 정보를 담을 수 있도록 설정한다. -->
+        <collection property="files"  ofType="uploadFile">
+            <id     column="f_no"       property="no"/>
+            <result column="filename"   property="filename"/>
+        </collection>
     </resultMap>
 
     <sql id="select1">
@@ -31,19 +36,19 @@
     </sql>
 
     <select id="findAll" resultMap="boardMap" parameterType="map">
-        select
+        select 
             b.no,
             b.title,
             b.regdt,
             b.vwcnt,
             m.no as m_no,
             m.name as m_name
-        from ex_board as b join ex_memb as m on b.mno = m.no
+        from ex_board as b join ex_memb as m on b.mno=m.no
 
-        <if test="titles != null">
+        <if test="words != null">
 	        <where>
-	            <foreach collection="titles" item="title">
-	                or title like '%${title}%'
+	            <foreach collection="words" item="word">
+	                or title like '%${word}%'
 	            </foreach>
 	        </where>
         </if>
@@ -68,8 +73,8 @@
             </otherwise>
         </choose>
         
-        limit #{startIndex}, ${size}
-        
+        <!-- 페이지징 처리 -->
+        limit #{startIndex}, #{size}
     </select>
     
     <select id="findByNo" resultMap="boardMap" parameterType="int">
@@ -79,11 +84,34 @@
         where no=#{value}
     </select>
     
+    <select id="findByNo2" resultMap="boardMap" parameterType="int">
+        select 
+		    b.no, 
+		    b.title, 
+		    b.conts, 
+		    b.regdt, 
+		    b.vwcnt, 
+		    m.no as m_no, 
+		    m.name, 
+		    m.email,
+		    f.no as f_no,
+		    f.filename
+		from 
+		    ex_board as b 
+		    join ex_memb as m on b.mno=m.no
+		    left join ex_file as f on b.no=f.bno
+        where b.no=#{value}
+    </select>
+    
     <select id="countAll" resultType="int">
         select count(*) from ex_board
     </select>
     
-    <insert id="insert" parameterType="board">
+    <!-- insert를 수행한 후 자동 증간된 PK 값을 받고 싶다면,
+         useGeneratedKeys 속성 값을 true설정 해야 한다.
+         또한 PK 컬럼과 그 PK 컬럼 값을 저정할 property 이름을 알려줘야 한다. -->
+    <insert id="insert" parameterType="board"
+        useGeneratedKeys="true" keyColumn="no" keyProperty="no">
         insert into ex_board(title,conts,regdt,mno)
         values(#{title},#{content},now(),#{writer.no})
     </insert>

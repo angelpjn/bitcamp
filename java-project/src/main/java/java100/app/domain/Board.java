@@ -11,7 +11,7 @@ public class Board {
     protected int viewCount;
     protected Member writer;
     protected List<UploadFile> files;
-
+    
     public int getNo() {
         return no;
     }
@@ -67,6 +67,7 @@ public class Board {
     public void setFiles(List<UploadFile> files) {
         this.files = files;
     }
+
     
 }
 
